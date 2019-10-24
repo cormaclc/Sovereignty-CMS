@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import AddCard from './Add/AddCard'
+import ViewCards from './View/ViewCards';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         <p>
           Sovereignty Card Maker System
         </p>
-        <AddCard></AddCard>
+        <ViewCards></ViewCards>
       </header>
     </div>
   );

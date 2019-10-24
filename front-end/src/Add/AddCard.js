@@ -1,10 +1,9 @@
-import './AddCard.css'
 
 import React from 'react';
 import {Modal, Button, Form} from 'react-bootstrap'
-import { createCard } from '../api-js/api-interaction';
+import { createCard, getCards } from '../api-js/api-interaction';
 
-function AddCard() {
+function AddCard(props) {
     const [show, setShow] = React.useState(false)
     const [recipient, setRecipient] = React.useState('')
     const [eventType, setEventType] = React.useState('')
@@ -24,9 +23,10 @@ function AddCard() {
             orientation: orientation
         }
 
-        createCard(jsObj)
-
-        handleClose()
+        createCard(jsObj);
+        handleClose();
+        console.log(props)
+        props.setCards(getCards);
     }
 
     return (
@@ -40,7 +40,7 @@ function AddCard() {
                     <Form>
                         <Form.Group controlId="form-recipient">
                             <Form.Label>Recipient</Form.Label>
-                            <Form.Control placeholder="Recipient" onChange={handleRecipientChange}/>
+                            <Form.Control required placeholder="Recipient" onChange={handleRecipientChange}/>
                         </Form.Group>
                         
                         <Form.Group controlId="form-event-type">
@@ -54,7 +54,7 @@ function AddCard() {
 
                         <Form.Group controlId="form-orientation">
                             <Form.Label>Card Orientation</Form.Label>
-                            <Form.Control as="select" onChange={handleOrientationChange}>
+                            <Form.Control required as="select" onChange={handleOrientationChange}>
                                 <option defaultValue>Landscape</option>
                                 <option>Portrait</option>
                             </Form.Control>
