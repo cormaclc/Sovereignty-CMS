@@ -1,7 +1,7 @@
 package com.sovereignty.cms.model;
 
 public class Card {
-	String uuid;
+	String cardID;
 	String recipient;
 	String event;
 	String orientation;
@@ -13,12 +13,12 @@ public class Card {
 		this.orientation = orientation;
 	}
 
-	public String getUuid() {
-		return uuid;
+	public String getCardID() {
+		return cardID;
 	}
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setCardID(String uuid) {
+		this.cardID = uuid;
 	}
 
 	public String getRecipient() {

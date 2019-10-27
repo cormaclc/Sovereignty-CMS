@@ -11,7 +11,7 @@ public class CreateCardHandler implements RequestHandler<CreateCardRequest, Crea
 	
 	private Card mapCreateCardRequestToCard(CreateCardRequest input)  {
 		Card card = new  Card();
-		card.setUuid(input.getUuid());
+		card.setCardID(input.getUuid());
 		card.setRecipient(input.getRecipient());
 		card.setEvent(input.getEventType());
 		card.setOrientation(input.getOrientation());

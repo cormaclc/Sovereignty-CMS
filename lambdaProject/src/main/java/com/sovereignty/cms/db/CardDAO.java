@@ -20,7 +20,7 @@ public class CardDAO {
 		try {
 			Card card = null;
 // TODO update table name	
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM cards WHERE recipient = ? AND eventType = ?;");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM Cards WHERE recipient = ? AND eventType = ?;");
 			ps.setString(1,  recipient);
 			ps.setString(2,  eventType);
 
@@ -43,7 +43,7 @@ public class CardDAO {
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO cards "
 					+ "(uuid, recipient, eventType, orientation) "
 					+ "values(?,?,?,?);");
-            ps.setString(1,  card.getUuid());
+            ps.setString(1,  card.getCardID());
             ps.setString(2,  card.getRecipient());
             ps.setString(3, card.getEvent());
             ps.setString(4, card.getOrientation());
