@@ -28,7 +28,7 @@ function ViewCards() {
                         <div className='col-sm'>{c.eventType}</div>
                         <div className='col-sm'>{c.orientation}</div>
                         <div className='col-sm'>
-                            <Button variant='outline-danger' onClick={() => handleDelete(c.uuid)}>Delete</Button>
+                            <Button variant='outline-danger' onClick={() => {if(window.confirm(`Are you sure you want to delete the ${c.eventType} card for ${c.recipient}?`)){handleDelete(c.uuid)}}}>Delete</Button>
                         </div>
                     </div>
                 )
