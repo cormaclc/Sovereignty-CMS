@@ -46,14 +46,14 @@ public class CardDAO {
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO cards "
 					+ "(uuid, recipient, eventType, orientation) "
 					+ "values(?,?,?,?);");
-            ps.setString(1,  card.getCardID());
-            ps.setString(2,  card.getRecipient());
+            ps.setString(1, card.getCardID());
+            ps.setString(2, card.getRecipient());
             ps.setString(3, card.getEvent());
             ps.setString(4, card.getOrientation());
             ps.execute();
             return true;
         } catch (Exception e) {
-            throw new Exception("Failed to insert constant: " + e.getMessage());
+            throw new Exception("Failed to insert card: " + e.getMessage());
         }
 		
 	}
