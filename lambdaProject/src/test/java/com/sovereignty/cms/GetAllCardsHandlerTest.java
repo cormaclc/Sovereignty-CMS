@@ -1,4 +1,4 @@
-package com.amazonaws.lambda.demo;
+package com.sovereignty.cms;
 
 import java.io.IOException;
 
@@ -7,14 +7,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.sovereignty.cms.CreateCardHandler;
-import com.sovereignty.cms.http.*;
+import com.sovereignty.cms.http.AllCardsResponse;
+
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
-public class TeamLambdaHandlerTest {
+public class GetAllCardsHandlerTest {
 
-    private static CreateCardRequest input;
+    private static Object input;
 
     @BeforeClass
     public static void createInput() throws IOException {
@@ -32,11 +32,11 @@ public class TeamLambdaHandlerTest {
     }
 
     @Test
-    public void testLambdaFunctionHandler() {
-        CreateCardHandler handler = new CreateCardHandler();
+    public void testGetAllCardsHandler() {
+        GetAllCardsHandler handler = new GetAllCardsHandler();
         Context ctx = createContext();
 
-        CreateCardResponse output = handler.handleRequest(input, ctx);
+        AllCardsResponse output = handler.handleRequest(input, ctx);
 
         // TODO: validate output here if needed.
         Assert.assertEquals("Hello from Lambda!", output);

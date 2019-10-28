@@ -1,6 +1,10 @@
 package com.sovereignty.cms.db;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sovereignty.cms.model.Card;
 
@@ -19,7 +23,6 @@ public class CardDAO {
 	public Card getCardByRecipientAndEventType(String recipient, String eventType) throws Exception{
 		try {
 			Card card = null;
-// TODO update table name	
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM Cards WHERE recipient = ? AND eventType = ?;");
 			ps.setString(1,  recipient);
 			ps.setString(2,  eventType);
@@ -62,5 +65,25 @@ public class CardDAO {
         String orientation = res.getString("orientation");
         
         return new Card (uuid, recipient, eventType, orientation);
+    }
+    
+    public List<Card> getAllCards() throws Exception{
+    	List<Card> allCards = new ArrayList<>();
+    	try {
+			Statement statement = conn.createStatement();
+			String query = "SELECT * FROM Cards";
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            while (resultSet.next()) {
+            	Card c = generateCard(resultSet);
+            	allCards.add(c);
+            }
+            resultSet.close();
+            statement.close();
+            return allCards;
+
+    	}catch (Exception e) {
+    		throw new Exception("Failed getting all cards: "+ e.getMessage());
+    	}    	
     }
 }
