@@ -86,4 +86,18 @@ public class CardDAO {
     		throw new Exception("Failed getting all cards: "+ e.getMessage());
     	}    	
     }
+    
+    public boolean deleteCard(String cardID) throws Exception{
+    	try {
+    		PreparedStatement ps = conn.prepareStatement("DELETE FROM Cards WHERE cardID = ?;");
+    		ps.setString(1, cardID);
+    		int numAffected = ps.executeUpdate();
+    		ps.close();
+    		
+    		return (numAffected == 1);
+    		
+    	}catch (Exception e) {
+			throw new Exception("Failed to delete Card: "+e.getMessage());
+		}
+    }
 }

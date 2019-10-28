@@ -1,16 +1,16 @@
 package com.sovereignty.cms.http;
 
 public class CreateCardRequest {
-	String uuid;
+	String cardID;
 	String recipient;
 	String eventType;
 	String orientation;
 	
-	public String getUuid() {
-		return uuid;
+	public String getCardID() {
+		return cardID;
 	}
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setCardID(String cardID) {
+		this.cardID = cardID;
 	}
 	public String getRecipient() {
 		return recipient;

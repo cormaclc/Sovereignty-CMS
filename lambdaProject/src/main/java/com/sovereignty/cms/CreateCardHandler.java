@@ -8,10 +8,10 @@ import com.sovereignty.cms.http.CreateCardResponse;
 import com.sovereignty.cms.model.Card;
 
 public class CreateCardHandler implements RequestHandler<CreateCardRequest, CreateCardResponse> {
-	
+	CardDAO cardDao = new CardDAO();
 	private Card mapCreateCardRequestToCard(CreateCardRequest input)  {
 		Card card = new  Card();
-		card.setCardID(input.getUuid());
+		card.setCardID(input.getCardID());
 		card.setRecipient(input.getRecipient());
 		card.setEvent(input.getEventType());
 		card.setOrientation(input.getOrientation());
@@ -19,8 +19,8 @@ public class CreateCardHandler implements RequestHandler<CreateCardRequest, Crea
 	}
 	
 	private String validateCreateCardRequest(CreateCardRequest input) {
-		if ( input.getUuid() == null || input.getUuid().isEmpty()) 
-			return "uuid required";
+		if ( input.getCardID() == null || input.getCardID().isEmpty()) 
+			return "cardID required";
 		if ( input.getRecipient() == null || input.getRecipient().isEmpty()) 
 			return "recipient name required";
 		if ( input.getEventType() == null || input.getEventType().isEmpty()) 
@@ -33,34 +33,27 @@ public class CreateCardHandler implements RequestHandler<CreateCardRequest, Crea
     @Override
     public CreateCardResponse handleRequest(CreateCardRequest input, Context context) {
         context.getLogger().log("Input: " + input);
-		CreateCardResponse createCardRes;
-		CardDAO cardDao = new CardDAO();
 		
         try {
         	String validationError = this.validateCreateCardRequest(input);
         	if (validationError != null)  {
-        		createCardRes = new CreateCardResponse(400, "invalid card");
- 		        return createCardRes;
+        		return new CreateCardResponse(400, "invalid card");
         	}
 	        Card card = cardDao.getCardByRecipientAndEventType(input.getRecipient(), input.getEventType());
 			if (card != null) {
-				createCardRes = new CreateCardResponse(409, "conflict, card already exists");
-		        return createCardRes;
+				return new CreateCardResponse(409, "conflict, card already exists");
 			}
 			
 			card = this.mapCreateCardRequestToCard(input);
 			boolean cardAdded = cardDao.addCard(card);
 			
 			if (! cardAdded) {
-        		createCardRes = new CreateCardResponse(500, "failed adding card");
-		        return createCardRes;
+				return new CreateCardResponse(500, "failed adding card");
 			}
 			
-    		createCardRes = new CreateCardResponse(200, "successfully added new card", card);
-	        return createCardRes;
+			return new CreateCardResponse(200, "successfully added new card", card);
         } catch (Exception e) {
-        	createCardRes = new CreateCardResponse(500, "failed adding card");
-	        return createCardRes;
+        	return new CreateCardResponse(500, "failed adding card");
 		}
     }
 
