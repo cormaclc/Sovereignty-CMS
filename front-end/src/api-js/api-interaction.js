@@ -3,6 +3,7 @@ import {Card, Page, VisualElement, UNCHANGED, UPDATED, DELETED} from './classes'
 
 const baseUrl = 'https://ezsx1v4va5.execute-api.us-east-1.amazonaws.com/alpha'
 
+// eslint-disable-next-line
 let testCards = JSON.stringify([
     new Card('Wedding', 'Sam', 'Landscape', 0,0,0,0),
     new Card('Birthday', 'Richard', 'Landscape', 0,0,0,0),
@@ -32,7 +33,7 @@ const createCard = (initCard) => {
     xhr.onloadend = function () {
       console.log(xhr);
       console.log(xhr.request);
-      if (xhr.readyState == XMLHttpRequest.DONE) {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
         console.log ("XHR:" + xhr.responseText);
         getCards()
       } else {
@@ -56,7 +57,7 @@ const getCards = () => {
     
     // This will process results and update HTML as appropriate. 
     xhr.onloadend = function () {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
             console.log ("XHR:" + xhr.responseText);
             allCards = JSON.parse(xhr.responseText);
         } else {
@@ -78,7 +79,7 @@ const deleteCard = (uuid) => {
     xhr.onloadend = function () {
         console.log(xhr);
         console.log(xhr.request);
-        if (xhr.readyState == XMLHttpRequest.DONE) {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
             console.log ("XHR:" + xhr.responseText);
             getCards()
         } else {
