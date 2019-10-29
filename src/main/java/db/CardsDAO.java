@@ -1,10 +1,10 @@
-package main.java.db;
+package db;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.model.Card;
+import model.Card;
 
 
 
