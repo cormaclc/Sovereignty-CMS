@@ -15,6 +15,7 @@ public class CardDAO {
 		try {
 			conn = DatabaseUtil.connect();
 		} catch (Exception e) {
+			e.printStackTrace();
 			conn = null;
 		}
 	}
@@ -43,8 +44,8 @@ public class CardDAO {
 	
 	public boolean addCard(Card card) throws Exception {
 		try {
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO cards "
-					+ "(uuid, recipient, eventType, orientation) "
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO Cards "
+					+ "(cardID, recipient, eventType, orientation) "
 					+ "values(?,?,?,?);");
             ps.setString(1, card.getCardID());
             ps.setString(2, card.getRecipient());
@@ -59,7 +60,7 @@ public class CardDAO {
 	}
 	
     private Card generateCard(ResultSet res) throws Exception {
-    	String cardID = res.getString("cardID");
+    	String uuid = res.getString("cardID");
         String recipient  = res.getString("recipient");
         String eventType = res.getString("eventType");
         String orientation = res.getString("orientation");

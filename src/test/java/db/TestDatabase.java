@@ -13,7 +13,7 @@ public class TestDatabase extends TestCase {
 	    CardsDAO cd = new CardsDAO();
 	    try {
 	    	Card c = cd.getCard("default_card");
-	    	System.out.println("constant " + c.getEventType() + " = " + c.getRecipient());
+	    	System.out.println("Card EventType: " + c.getEventType() + " Recipient: " + c.getRecipient());
 	    } catch (Exception e) {
 	    	fail ("didn't work:" + e.getMessage());
 	    }

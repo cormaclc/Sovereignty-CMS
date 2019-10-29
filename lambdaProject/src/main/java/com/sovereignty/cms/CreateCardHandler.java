@@ -45,6 +45,7 @@ public class CreateCardHandler implements RequestHandler<CreateCardRequest, Crea
 			}
 			
 			card = this.mapCreateCardRequestToCard(input);
+		
 			boolean cardAdded = cardDao.addCard(card);
 			
 			if (! cardAdded) {
@@ -53,7 +54,7 @@ public class CreateCardHandler implements RequestHandler<CreateCardRequest, Crea
 			
 			return new CreateCardResponse(200, "successfully added new card", card);
         } catch (Exception e) {
-        	return new CreateCardResponse(500, "failed adding card");
+        	return new CreateCardResponse(500, "Encountered and Error while adding card");
 		}
     }
 

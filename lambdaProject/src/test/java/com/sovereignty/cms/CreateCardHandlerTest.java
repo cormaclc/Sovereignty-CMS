@@ -3,7 +3,6 @@ package com.sovereignty.cms;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -11,20 +10,27 @@ import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.sovereignty.cms.db.CardDAO;
-import com.sovereignty.cms.http.AllCardsResponse;
+import com.sovereignty.cms.http.CreateCardRequest;
+import com.sovereignty.cms.http.CreateCardResponse;
+import com.sovereignty.cms.http.DeleteCardRequest;
+import com.sovereignty.cms.http.DeleteCardResponse;
 import com.sovereignty.cms.model.Card;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
-public class GetAllCardsHandlerTest {
+public class CreateCardHandlerTest {
 
-    private static Object input;
+    private static CreateCardRequest input;
 
     @BeforeClass
     public static void createInput() throws IOException {
         // TODO: set up your sample input object here.
-        input = null;
+        input = new CreateCardRequest();
+        input.setCardID("test_card1");
+        input.setEventType("BIRTHDAY");
+        input.setRecipient("Cormac");
+        input.setOrientation("LANDSCAPE");
     }
 
     private Context createContext() {
@@ -37,25 +43,17 @@ public class GetAllCardsHandlerTest {
     }
 
     @Test
-    public void testGetAllCardsHandler() {
-        GetAllCardsHandler handler = new GetAllCardsHandler();
+    public void testCreateCard() {
+        CreateCardHandler handler = new CreateCardHandler();
         Context ctx = createContext();
 
-        AllCardsResponse output = handler.handleRequest(input, ctx);
-
-        CardDAO cd = new CardDAO();
-        try {
-			List<Card> cards = cd.getAllCards();
-			System.out.println(cards);
-			AllCardsResponse verified = new AllCardsResponse(200, "", cards);
-			// TODO: validate output here if needed.
-	        Assert.assertEquals(2, output.cards.size());
-	        Assert.assertEquals(200, output.code);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail ("didn't work:" + e.getMessage());
-		}
+        CreateCardResponse output = handler.handleRequest(input, ctx);
         
+        System.out.println(output.error);
+		// TODO: validate output here if needed.
+        Assert.assertEquals(200, output.getCode());
+		
+        
+       
     }
 }

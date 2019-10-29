@@ -4,8 +4,8 @@ import java.util.List;
 import com.sovereignty.cms.model.Card;
 
 public class AllCardsResponse {
-	List<Card> cards;
-	int code;
+	public List<Card> cards;
+	public int code;
 	String error;
 	
 	public AllCardsResponse(int code, String errorMessage) {

@@ -5,10 +5,10 @@ import com.sovereignty.cms.model.Card;
 public class CreateCardResponse {
 	String result;
 	int code;
-	String error;
+	public String error;
 	Card card;
 	
-	public Integer getCode() {
+	public int getCode() {
 		return code;
 	}
 	public void setCode(Integer i) {
