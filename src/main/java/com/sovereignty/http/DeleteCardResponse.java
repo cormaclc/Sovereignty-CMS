@@ -17,4 +17,9 @@ public class DeleteCardResponse {
 		this.error = errorMessage;
 		this.card = card;
 	}
+
+	public int getCode() {
+		return code;
+	}
+
 }
