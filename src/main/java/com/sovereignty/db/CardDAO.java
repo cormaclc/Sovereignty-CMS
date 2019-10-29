@@ -20,7 +20,28 @@ public class CardDAO {
 		}
 	}
 	
-// Return null if card does not exist
+	// Return null if card does not exist
+	public Card getCardByID(String cardID) throws Exception{
+		try {
+			Card card = null;
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM Cards WHERE cardID = ?;");
+			ps.setString(1,  cardID);
+
+            ResultSet resultSet = ps.executeQuery();
+            
+            while (resultSet.next()) {
+                card = generateCard(resultSet);
+            }
+            resultSet.close();
+            ps.close();
+            
+            return card;
+		} catch (Exception e) {
+			throw new Exception("Could not get card");
+		}
+	}
+	
+	// Return null if card does not exist
 	public Card getCardByRecipientAndEventType(String recipient, String eventType) throws Exception{
 		try {
 			Card card = null;
@@ -29,7 +50,6 @@ public class CardDAO {
 			ps.setString(2,  eventType);
 
             ResultSet resultSet = ps.executeQuery();
-            
             while (resultSet.next()) {
                 card = generateCard(resultSet);
             }

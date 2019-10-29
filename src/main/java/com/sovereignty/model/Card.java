@@ -7,7 +7,8 @@ public class Card {
 	String orientation;
 // TODO: card model in database 
 	public Card()  {}
-	public Card(String uuid, String recipientName, String eventType, String orientation) {
+	public Card(String cardID, String recipientName, String eventType, String orientation) {
+		this.cardID = cardID;
 		this.recipient = recipientName;
 		this.event = eventType;
 		this.orientation = orientation;
