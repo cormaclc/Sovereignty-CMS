@@ -53,9 +53,12 @@ public class CreateDeleteCardHandlerTest {
 
         CreateCardResponse output = handler.handleRequest(inputCreate, ctx);
         
-        System.out.println(output.error);
 		// TODO: validate output here if needed.
         Assert.assertEquals(200, output.getCode());
+        Assert.assertEquals("test_card1", output.getCard().getCardID());
+        Assert.assertEquals("Cormac", output.getCard().getRecipient());
+        Assert.assertEquals("BIRTHDAY", output.getCard().getEvent());
+        Assert.assertEquals("LANDSCAPE", output.getCard().getOrientation());
     }
     
     @Test

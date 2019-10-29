@@ -3,6 +3,7 @@ package com.sovereignty;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -44,19 +45,21 @@ public class GetAllCardsHandlerTest {
 
         AllCardsResponse output = handler.handleRequest(input, ctx);
 
+        // Generate Validation Data
+        List<Card> cards = new ArrayList<Card>();
         CardDAO cd = new CardDAO();
         try {
-			List<Card> cards = cd.getAllCards();
+			cards = cd.getAllCards();
 			System.out.println(cards);
-			AllCardsResponse verified = new AllCardsResponse(200, "", cards);
-			// TODO: validate output here if needed.
-	        Assert.assertEquals(2, output.cards.size());
-	        Assert.assertEquals(200, output.code);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail ("didn't work:" + e.getMessage());
 		}
+        
+        // TODO: validate output here if needed.
+        Assert.assertEquals(cards.size(), output.getCards().size());
+        Assert.assertEquals(200, output.getCode());
         
     }
 }
