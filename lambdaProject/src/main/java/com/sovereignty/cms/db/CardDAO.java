@@ -59,12 +59,12 @@ public class CardDAO {
 	}
 	
     private Card generateCard(ResultSet res) throws Exception {
-    	String uuid = res.getString("uuid");
+    	String cardID = res.getString("cardID");
         String recipient  = res.getString("recipient");
         String eventType = res.getString("eventType");
         String orientation = res.getString("orientation");
         
-        return new Card (uuid, recipient, eventType, orientation);
+        return new Card (cardID, recipient, eventType, orientation);
     }
     
     public List<Card> getAllCards() throws Exception{
