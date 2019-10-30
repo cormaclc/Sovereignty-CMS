@@ -34,8 +34,7 @@ const createCard = (initCard) => {
       console.log(xhr);
       console.log(xhr.request);
       if (xhr.readyState === XMLHttpRequest.DONE) {
-        console.log ("XHR:" + xhr.responseText);
-        getCards()
+        console.log(xhr.responseText);
       } else {
         console.log('error');
       }
@@ -58,14 +57,17 @@ const getCards = () => {
     // This will process results and update HTML as appropriate. 
     xhr.onloadend = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            console.log ("XHR:" + xhr.responseText);
-            allCards = JSON.parse(xhr.responseText);
+            console.log (xhr.responseText);
+            allCards = JSON.parse(xhr.responseText).cards
+            console.log(allCards)
+            return allCards;
         } else {
             console.log('error')
+            return allCards;
         }
     };
 
-    return allCards;
+    //return allCards;
 }
 
 const deleteCard = (uuid) => {

@@ -30,7 +30,7 @@ function AddCard(props) {
         createCard(jsObj);
         handleClose();
         console.log(props)
-        props.setCards(getCards);
+        //props.setCards(getCards);
     }
 
     return (
