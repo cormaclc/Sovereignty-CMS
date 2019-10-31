@@ -5,7 +5,7 @@ import com.sovereignty.model.Card;
 public class CreateCardResponse {
 	String result;
 	int code;
-	public String error;
+	String error;
 	Card card;
 	
 	public int getCode() {

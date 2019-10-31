@@ -4,8 +4,8 @@ import java.util.List;
 import com.sovereignty.model.Card;
 
 public class AllCardsResponse {
-	public List<Card> cards;
-	public int code;
+	List<Card> cards;
+	int code;
 	String error;
 	
 	public AllCardsResponse(int code, String errorMessage) {
@@ -18,4 +18,19 @@ public class AllCardsResponse {
 		this.error = errorMessage;
 		this.cards = cards;
 	}
+
+	public List<Card> getCards() {
+		return cards;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public String getError() {
+		return error;
+	}
+	
+	
+	
 }
