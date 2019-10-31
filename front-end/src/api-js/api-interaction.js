@@ -1,5 +1,7 @@
 // eslint-disable-next-line
 import {Card, Page, VisualElement, UNCHANGED, UPDATED, DELETED} from './classes'
+import uuidv1 from 'uuid/v1'
+
 
 const baseUrl = 'https://ezsx1v4va5.execute-api.us-east-1.amazonaws.com/alpha'
 
@@ -14,13 +16,15 @@ let allCards = []
 
 const createCard = (initCard) => {
 
-    let frontPage = new Page([], true)
-    let leftPage = new Page([], true)
-    let rightPage = new Page([], true)
-    let backPage = new Page([], false)
-    let card = new Card(initCard.eventType, initCard.recipient, initCard.orientation, frontPage, leftPage, rightPage, backPage)
+    // let frontPage = new Page([], true)
+    // let leftPage = new Page([], true)
+    // let rightPage = new Page([], true)
+    // let backPage = new Page([], false)
+    // let card = new Card(initCard.eventType, initCard.recipient, initCard.orientation, frontPage, leftPage, rightPage, backPage)
 
-    let jsonCard = JSON.stringify(card)
+    initCard.cardID = uuidv1()
+
+    let jsonCard = JSON.stringify(initCard)
     console.log(jsonCard)
 
     var xhr = new XMLHttpRequest();
@@ -70,9 +74,10 @@ const getCards = () => {
     //return allCards;
 }
 
-const deleteCard = (uuid) => {
+const deleteCard = (cardID) => {
+    console.log(cardID)
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", baseUrl+`/deleteCard/${uuid}`, true);
+    xhr.open("DELETE", baseUrl+`/deleteCard/${cardID}`, true);
 
     // send the collected data as JSON
     xhr.send();
@@ -83,7 +88,6 @@ const deleteCard = (uuid) => {
         console.log(xhr.request);
         if (xhr.readyState === XMLHttpRequest.DONE) {
             console.log ("XHR:" + xhr.responseText);
-            getCards()
         } else {
             console.log('error');
         }

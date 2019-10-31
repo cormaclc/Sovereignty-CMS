@@ -1,5 +1,5 @@
 import React from 'react'
-import { getCards, deleteCard } from '../api-js/api-interaction'
+import { deleteCard } from '../api-js/api-interaction'
 import { Button } from 'react-bootstrap'
 import AddCard from '../Add/AddCard'
 
@@ -10,9 +10,8 @@ function ViewCards() {
 
     const [cards, setCards] = React.useState([])
 
-    const handleDelete = (uuid) => {
-        deleteCard(uuid)
-        setCards(getCards)
+    const handleDelete = (cardID) => {
+        deleteCard(cardID)
     }
 
     React.useEffect(() => {
@@ -47,7 +46,7 @@ function ViewCards() {
                         <div className='col-sm'>{c.event}</div>
                         <div className='col-sm'>{c.orientation}</div>
                         <div className='col-sm'>
-                            <Button variant='outline-danger' onClick={() => {if(window.confirm(`Are you sure you want to delete the ${c.eventType} card for ${c.recipient}?`)){handleDelete(c.uuid)}}}>Delete</Button>
+                            <Button variant='outline-danger' onClick={() => {if(window.confirm(`Are you sure you want to delete the ${c.eventType} card for ${c.recipient}?`)){handleDelete(c.cardID)}}}>Delete</Button>
                         </div>
                     </div>
                 )
