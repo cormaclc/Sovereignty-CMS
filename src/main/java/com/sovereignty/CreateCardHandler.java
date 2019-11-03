@@ -13,7 +13,7 @@ public class CreateCardHandler implements RequestHandler<CreateCardRequest, Crea
 		Card card = new  Card();
 		card.setCardID(input.getCardID());
 		card.setRecipient(input.getRecipient());
-		card.setEvent(input.getEventType());
+		card.setEventType(input.getEventType());
 		card.setOrientation(input.getOrientation());
 		return card;
 	}
@@ -32,12 +32,12 @@ public class CreateCardHandler implements RequestHandler<CreateCardRequest, Crea
 	
     @Override
     public CreateCardResponse handleRequest(CreateCardRequest input, Context context) {
-        context.getLogger().log("Input: " + input);
+        context.getLogger().log("InputCreateCard: " + input);
 		
         try {
         	String validationError = this.validateCreateCardRequest(input);
         	if (validationError != null)  {
-        		return new CreateCardResponse(400, "invalid card");
+        		return new CreateCardResponse(400, validationError);
         	}
 	        Card card = cardDao.getCardByRecipientAndEventType(input.getRecipient(), input.getEventType());
 			if (card != null) {

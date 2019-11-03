@@ -14,4 +14,16 @@ public class DeleteCardResponse {
 		return code;
 	}
 
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+
 }

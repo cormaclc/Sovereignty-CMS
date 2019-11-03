@@ -20,7 +20,6 @@ public class DeleteCardHandler implements RequestHandler<DeleteCardRequest, Dele
     @Override
     public DeleteCardResponse handleRequest(DeleteCardRequest input, Context context) {
         context.getLogger().log("Input: " + input);
-        
         try {
         	String validationError = this.validateDeleteCardRequest(input);
         	if (validationError != null) {
@@ -28,12 +27,14 @@ public class DeleteCardHandler implements RequestHandler<DeleteCardRequest, Dele
         	}
         	
         	boolean cardDeleted = cardDao.deleteCard(input.getCardID());
-        	if (! cardDeleted) {
-        		return new DeleteCardResponse(500, "failed deleting Card "+input.getCardID());
-        	};
+			/*
+			 * if (! cardDeleted) { return new DeleteCardResponse(500,
+			 * "failed deleting Card "+ input.getCardID()); };
+			 */
         	
         	return new DeleteCardResponse(200, "successfully deleted Card "+input.getCardID());
         }catch (Exception e) {
+            context.getLogger().log(e.getMessage());
 			return new DeleteCardResponse(500, e.getMessage());
 		}
 		

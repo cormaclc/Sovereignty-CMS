@@ -32,11 +32,11 @@ public class Card {
 		this.recipient = recipient;
 	}
 
-	public String getEvent() {
+	public String getEventType() {
 		return eventType;
 	}
 
-	public void setEvent(String event) {
+	public void setEventType(String event) {
 		this.eventType = event;
 	}
 
