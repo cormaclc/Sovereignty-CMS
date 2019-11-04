@@ -22,7 +22,7 @@ const createCard = (initCard) => {
     // let backPage = new Page([], false)
     // let card = new Card(initCard.eventType, initCard.recipient, initCard.orientation, frontPage, leftPage, rightPage, backPage)
 
-    initCard.cardID = uuidv1()
+    initCard.cardID = uuidv1().substring(0, 19)
 
     let jsonCard = JSON.stringify(initCard)
     console.log(jsonCard)
@@ -77,7 +77,7 @@ const getCards = () => {
 const deleteCard = (cardID) => {
     console.log(cardID)
     var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", baseUrl+`/deleteCard/${cardID}`, true);
+    xhr.open("POST", baseUrl+`/deleteCard/${cardID}`, true);
 
     // send the collected data as JSON
     xhr.send();
