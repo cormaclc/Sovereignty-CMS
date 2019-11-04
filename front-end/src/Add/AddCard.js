@@ -10,10 +10,14 @@ const eventTypeOptions = ['Back to School', 'Baptism and Christening', 'Baby', '
 function AddCard(props) {
     const [show, setShow] = React.useState(false)
     const [recipient, setRecipient] = React.useState('')
-    const [eventType, setEventType] = React.useState('')
-    const [orientation, setOrientation] = React.useState('')
+    const [eventType, setEventType] = React.useState('Anniversary')
+    const [orientation, setOrientation] = React.useState('Landscape')
 
-    const handleOpen = () => { setShow(true) }
+    const handleOpen = () => { 
+        setEventType('Anniversary');
+        setOrientation('Landscape');
+        setShow(true);
+    }
     const handleClose = () => { setShow(false) }
 
     const handleRecipientChange = (e) => { setRecipient(e.target.value) }
