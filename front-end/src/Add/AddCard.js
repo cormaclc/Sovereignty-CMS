@@ -1,7 +1,7 @@
 
 import React from 'react';
 import {Modal, Button, Form} from 'react-bootstrap'
-import { createCard, getCards } from '../api-js/api-interaction';
+import { createCard } from '../api-js/api-interaction';
 
 const eventTypeOptions = ['Back to School', 'Baptism and Christening', 'Baby', 'Bar/Bat Mitzvah', 'Birthday',
     'Confirmation', 'Congratulations', 'Encouragement', 'First Communion', 'Get Well', 'Graduation', 'Retirement', 'Sympathy', 
@@ -30,7 +30,7 @@ function AddCard(props) {
         createCard(jsObj);
         handleClose();
         console.log(props)
-        props.setCards(getCards);
+        //props.setCards(getCards);
     }
 
     return (
