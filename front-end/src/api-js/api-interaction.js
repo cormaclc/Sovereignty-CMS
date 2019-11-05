@@ -1,5 +1,7 @@
 // eslint-disable-next-line
 import {Card, Page, VisualElement, UNCHANGED, UPDATED, DELETED} from './classes'
+import uuidv1 from 'uuid/v1'
+
 
 const baseUrl = 'https://ezsx1v4va5.execute-api.us-east-1.amazonaws.com/alpha'
 
@@ -14,13 +16,15 @@ let allCards = []
 
 const createCard = (initCard) => {
 
-    let frontPage = new Page([], true)
-    let leftPage = new Page([], true)
-    let rightPage = new Page([], true)
-    let backPage = new Page([], false)
-    let card = new Card(initCard.eventType, initCard.recipient, initCard.orientation, frontPage, leftPage, rightPage, backPage)
+    // let frontPage = new Page([], true)
+    // let leftPage = new Page([], true)
+    // let rightPage = new Page([], true)
+    // let backPage = new Page([], false)
+    // let card = new Card(initCard.eventType, initCard.recipient, initCard.orientation, frontPage, leftPage, rightPage, backPage)
 
-    let jsonCard = JSON.stringify(card)
+    initCard.cardID = uuidv1().substring(0, 19)
+
+    let jsonCard = JSON.stringify(initCard)
     console.log(jsonCard)
 
     var xhr = new XMLHttpRequest();
@@ -34,8 +38,7 @@ const createCard = (initCard) => {
       console.log(xhr);
       console.log(xhr.request);
       if (xhr.readyState === XMLHttpRequest.DONE) {
-        console.log ("XHR:" + xhr.responseText);
-        getCards()
+        console.log(xhr.responseText);
       } else {
         console.log('error');
       }
@@ -58,19 +61,23 @@ const getCards = () => {
     // This will process results and update HTML as appropriate. 
     xhr.onloadend = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            console.log ("XHR:" + xhr.responseText);
-            allCards = JSON.parse(xhr.responseText);
+            console.log (xhr.responseText);
+            allCards = JSON.parse(xhr.responseText).cards
+            console.log(allCards)
+            return allCards;
         } else {
             console.log('error')
+            return allCards;
         }
     };
 
-    return allCards;
+    //return allCards;
 }
 
-const deleteCard = (uuid) => {
+const deleteCard = (cardID) => {
+    console.log(cardID)
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", baseUrl+`/deleteCard/${uuid}`, true);
+    xhr.open("POST", baseUrl+`/deleteCard/${cardID}`, true);
 
     // send the collected data as JSON
     xhr.send();
@@ -81,7 +88,6 @@ const deleteCard = (uuid) => {
         console.log(xhr.request);
         if (xhr.readyState === XMLHttpRequest.DONE) {
             console.log ("XHR:" + xhr.responseText);
-            getCards()
         } else {
             console.log('error');
         }

@@ -6,7 +6,7 @@ const DELETED = 2;
 
 class Card {
     constructor(eventType, recipient, orientation, frontPage, leftPage, rightPage, backPage) {
-        this.uuid = uuidv1();
+        this.cardID = uuidv1();
         this.eventType = eventType;
         this.recipient = recipient;
         this.orientation = orientation;
