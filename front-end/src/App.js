@@ -1,17 +1,20 @@
 import React from 'react';
-import './App.css';
-import ViewCards from './View/ViewCards';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import Home from './Home'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Sovereignty Card Maker System
-        </p>
-        <ViewCards></ViewCards>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
