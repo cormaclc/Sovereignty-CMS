@@ -69,7 +69,7 @@ public class CardDAO {
 					+ "values(?,?,?,?);");
             ps.setString(1, card.getCardID());
             ps.setString(2, card.getRecipient());
-            ps.setString(3, card.getEvent());
+            ps.setString(3, card.getEventType());
             ps.setString(4, card.getOrientation());
             ps.execute();
             return true;
