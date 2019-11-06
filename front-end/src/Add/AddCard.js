@@ -1,15 +1,23 @@
 
 import React from 'react';
 import {Modal, Button, Form} from 'react-bootstrap'
-import { createCard, getCards } from '../api-js/api-interaction';
+import { createCard } from '../api-js/api-interaction';
+
+const eventTypeOptions = ['Back to School', 'Baptism and Christening', 'Baby', 'Bar/Bat Mitzvah', 'Birthday',
+    'Confirmation', 'Congratulations', 'Encouragement', 'First Communion', 'Get Well', 'Graduation', 'Retirement', 'Sympathy', 
+    'Teacher Appreciation', 'Thank You', 'Wedding']
 
 function AddCard(props) {
     const [show, setShow] = React.useState(false)
     const [recipient, setRecipient] = React.useState('')
-    const [eventType, setEventType] = React.useState('')
-    const [orientation, setOrientation] = React.useState('')
+    const [eventType, setEventType] = React.useState('Anniversary')
+    const [orientation, setOrientation] = React.useState('Landscape')
 
-    const handleOpen = () => { setShow(true) }
+    const handleOpen = () => { 
+        setEventType('Anniversary');
+        setOrientation('Landscape');
+        setShow(true);
+    }
     const handleClose = () => { setShow(false) }
 
     const handleRecipientChange = (e) => { setRecipient(e.target.value) }
@@ -26,7 +34,7 @@ function AddCard(props) {
         createCard(jsObj);
         handleClose();
         console.log(props)
-        props.setCards(getCards);
+        //props.setCards(getCards);
     }
 
     return (
@@ -46,9 +54,12 @@ function AddCard(props) {
                         <Form.Group controlId="form-event-type">
                             <Form.Label>Event Type</Form.Label>
                             <Form.Control as="select" onChange={handleEventChange}>
-                                <option defaultValue>Birthday</option>
-                                <option>Wedding</option>
-                                <option>Anniversary</option>
+                                <option defaultValue>Anniversary</option>
+                                {eventTypeOptions.map((eto) => {
+                                    return (
+                                        <option key={eto}>{eto}</option>
+                                    )
+                                })}
                             </Form.Control>
                         </Form.Group>
 

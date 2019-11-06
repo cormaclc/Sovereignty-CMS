@@ -4,7 +4,7 @@ public class Card {
 	
 	String cardID;
 	String recipient;
-	String event;
+	String eventType;
 	String orientation;
 	
 	public Card()  {}
@@ -12,7 +12,7 @@ public class Card {
 	public Card(String cardID, String recipientName, String eventType, String orientation) {
 		this.cardID = cardID;
 		this.recipient = recipientName;
-		this.event = eventType;
+		this.eventType = eventType;
 		this.orientation = orientation;
 	}
 
@@ -32,12 +32,12 @@ public class Card {
 		this.recipient = recipient;
 	}
 
-	public String getEvent() {
-		return event;
+	public String getEventType() {
+		return eventType;
 	}
 
-	public void setEvent(String event) {
-		this.event = event;
+	public void setEventType(String event) {
+		this.eventType = event;
 	}
 
 	public String getOrientation() {
