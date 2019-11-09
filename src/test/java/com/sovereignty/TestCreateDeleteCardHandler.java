@@ -18,7 +18,7 @@ import com.sovereignty.http.DeleteCardResponse;
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
-public class CreateDeleteCardHandlerTest {
+public class TestCreateDeleteCardHandler {
 
     private static CreateCardRequest inputCreate;
     private static DeleteCardRequest inputDelete;
@@ -57,8 +57,16 @@ public class CreateDeleteCardHandlerTest {
         Assert.assertEquals(200, output.getCode());
         Assert.assertEquals("test_card1", output.getCard().getCardID());
         Assert.assertEquals("Cormac", output.getCard().getRecipient());
-        Assert.assertEquals("BIRTHDAY", output.getCard().getEvent());
+        Assert.assertEquals("BIRTHDAY", output.getCard().getEventType());
         Assert.assertEquals("LANDSCAPE", output.getCard().getOrientation());
+        Assert.assertNotNull(output.getCard().getFrontPage());
+        Assert.assertEquals(output.getCard().getFrontPage().getIsModifiable(), 1);
+        Assert.assertNotNull(output.getCard().getLeftPage());
+        Assert.assertEquals(output.getCard().getLeftPage().getIsModifiable(), 1);
+        Assert.assertNotNull(output.getCard().getRightPage());
+        Assert.assertEquals(output.getCard().getRightPage().getIsModifiable(), 1);
+        Assert.assertNotNull(output.getCard().getBackPage());
+        Assert.assertEquals(output.getCard().getBackPage().getIsModifiable(), 0);
     }
     
     @Test
