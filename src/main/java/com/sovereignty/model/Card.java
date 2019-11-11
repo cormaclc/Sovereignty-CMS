@@ -6,14 +6,20 @@ public class Card {
 	String recipient;
 	String eventType;
 	String orientation;
+	Page frontPage, leftPage, rightPage, backPage;
 	
 	public Card()  {}
 	
-	public Card(String cardID, String recipientName, String eventType, String orientation) {
+	public Card(String cardID, String recipientName, String eventType, String orientation,
+			Page front, Page left, Page right, Page back) {
 		this.cardID = cardID;
 		this.recipient = recipientName;
 		this.eventType = eventType;
 		this.orientation = orientation;
+		this.frontPage = front;
+		this.leftPage = left; 
+		this.rightPage = right;
+		this.backPage = back;
 	}
 
 	public String getCardID() {

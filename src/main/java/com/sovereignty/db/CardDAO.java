@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sovereignty.model.Card;
+import com.sovereignty.model.Page;
 
 public class CardDAO {
 	java.sql.Connection conn;
-	
+	PageDAO pageDAO = new PageDAO();
 	public CardDAO() {
 		try {
 			conn = DatabaseUtil.connect();
@@ -37,7 +38,7 @@ public class CardDAO {
             
             return card;
 		} catch (Exception e) {
-			throw new Exception("Could not get card");
+			throw new Exception("Could not get card with ID"+cardID);
 		}
 	}
 	
@@ -84,8 +85,12 @@ public class CardDAO {
         String recipient  = res.getString("recipient");
         String eventType = res.getString("eventType");
         String orientation = res.getString("orientation");
-        
-        return new Card (cardID, recipient, eventType, orientation);
+        Page frontPage = pageDAO.getPageByID(res.getString("frontPage"));
+        Page leftPage = pageDAO.getPageByID(res.getString("leftPage"));
+        Page rightPage = pageDAO.getPageByID(res.getString("rightPage"));
+        Page backPage = pageDAO.getPageByID(res.getString("backPage"));
+
+        return new Card (cardID, recipient, eventType, orientation, );
     }
     
     public List<Card> getAllCards() throws Exception{
@@ -94,7 +99,6 @@ public class CardDAO {
 			Statement statement = conn.createStatement();
 			String query = "SELECT * FROM Cards";
             ResultSet resultSet = statement.executeQuery(query);
-            
             while (resultSet.next()) {
             	Card c = generateCard(resultSet);
             	allCards.add(c);
@@ -102,7 +106,6 @@ public class CardDAO {
             resultSet.close();
             statement.close();
             return allCards;
-
     	}catch (Exception e) {
     		throw new Exception("Failed getting all cards: "+ e.getMessage());
     	}    	
@@ -114,9 +117,7 @@ public class CardDAO {
     		ps.setString(1, cardID);
     		int numAffected = ps.executeUpdate();
     		ps.close();
-    		
     		return (numAffected == 1);
-    		
     	}catch (Exception e) {
 			throw new Exception("Failed to delete Card: "+e.getMessage());
 		}

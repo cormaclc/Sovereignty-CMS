@@ -1,5 +1,41 @@
 package com.sovereignty.model;
 
-public class Page {
+import java.util.List;
 
+public class Page {
+	String pageID;
+	int isModifiable;
+	List<VisualElement> listVisualElements; 
+	
+	public Page(String pageID, int isModifiable, List<VisualElement> listVE) {
+		this.pageID = pageID;
+		this.isModifiable = isModifiable;
+		this.listVisualElements = listVE;
+	}
+
+	public String getPageID() {
+		return pageID;
+	}
+
+	public void setPageID(String pageID) {
+		this.pageID = pageID;
+	}
+
+	public int getIsModifiable() {
+		return isModifiable;
+	}
+
+	public void setIsModifiable(int isModifiable) {
+		this.isModifiable = isModifiable;
+	}
+
+	public List<VisualElement> getListVisualElements() {
+		return listVisualElements;
+	}
+
+	public void setListVisualElements(List<VisualElement> listVisualElements) {
+		this.listVisualElements = listVisualElements;
+	}
+	
+	
 }
