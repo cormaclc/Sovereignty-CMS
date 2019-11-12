@@ -8,11 +8,6 @@ public class Card {
 	String orientation;
 	Page frontPage, leftPage, rightPage, backPage;
 	
-	Page frontPage;
-	Page leftPage;
-	Page rightPage;
-	Page backPage;
-	
 	public Card()  {}
 	
 	public Card(String cardID, String recipientName, String eventType, String orientation,
@@ -25,6 +20,14 @@ public class Card {
 		this.leftPage = left; 
 		this.rightPage = right;
 		this.backPage = back;
+	}
+	
+	public Card(String cardID, String recipientName, String eventType, String orientation) {
+		this.cardID = cardID;
+		this.recipient = recipientName;
+		this.eventType = eventType;
+		this.orientation = orientation;
+
 	}
 
 	public String getCardID() {

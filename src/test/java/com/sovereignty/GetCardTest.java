@@ -7,13 +7,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.sovereignty.http.GetCardRequest;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
 public class GetCardTest {
 
-    private static Object input;
+    private static GetCardRequest input;
 
     @BeforeClass
     public static void createInput() throws IOException {

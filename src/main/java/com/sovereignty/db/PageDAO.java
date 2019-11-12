@@ -2,9 +2,11 @@ package com.sovereignty.db;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.UUID;
 
 import com.sovereignty.model.Page;
+import com.sovereignty.model.VisualElement;
 
 public class PageDAO {
 	java.sql.Connection conn;

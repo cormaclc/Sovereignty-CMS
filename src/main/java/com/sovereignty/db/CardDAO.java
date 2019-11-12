@@ -95,7 +95,7 @@ public class CardDAO {
         Page rightPage = pageDAO.getPageByID(res.getString("rightPage"));
         Page backPage = pageDAO.getPageByID(res.getString("backPage"));
 
-        return new Card (cardID, recipient, eventType, orientation, );
+        return new Card (cardID, recipient, eventType, orientation, frontPage, leftPage, rightPage, backPage);
     }
     
     private Card generateDeepCard(ResultSet res) throws Exception {
