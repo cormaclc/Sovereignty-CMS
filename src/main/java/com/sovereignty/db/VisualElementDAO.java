@@ -152,4 +152,5 @@ public class VisualElementDAO {
 			throw new Exception("Failed to delete Element: " + e.getMessage());
 		}
 	}
+	
 }
