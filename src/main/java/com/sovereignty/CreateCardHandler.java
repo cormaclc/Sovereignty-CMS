@@ -3,12 +3,17 @@ package com.sovereignty;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.sovereignty.db.CardDAO;
+import com.sovereignty.db.PageDAO;
 import com.sovereignty.http.CreateCardRequest;
 import com.sovereignty.http.CreateCardResponse;
 import com.sovereignty.model.Card;
+import com.sovereignty.model.Page;
 
 public class CreateCardHandler implements RequestHandler<CreateCardRequest, CreateCardResponse> {
+	
 	CardDAO cardDao = new CardDAO();
+	PageDAO pageDao = new PageDAO();
+	
 	private Card mapCreateCardRequestToCard(CreateCardRequest input)  {
 		Card card = new  Card();
 		card.setCardID(input.getCardID());
@@ -46,6 +51,13 @@ public class CreateCardHandler implements RequestHandler<CreateCardRequest, Crea
 			
 			card = this.mapCreateCardRequestToCard(input);
 		
+			// Create 4 Pages before we insert the card into the database
+			// Update the page IDs in the Card object before passing it to the cardDAO
+			card.setFrontPage(new Page(pageDao.createEmptyPage()));
+			card.setLeftPage(new Page(pageDao.createEmptyPage()));
+			card.setRightPage(new Page(pageDao.createEmptyPage()));
+			card.setBackPage(new Page("default_back", 0));
+			// Insert the new Card into the Database
 			boolean cardAdded = cardDao.addCard(card);
 			
 			if (! cardAdded) {

@@ -31,7 +31,7 @@ public class CardDAO {
             ResultSet resultSet = ps.executeQuery();
             
             while (resultSet.next()) {
-                card = generateCard(resultSet);
+                card = generateDeepCard(resultSet);
             }
             resultSet.close();
             ps.close();
@@ -52,7 +52,7 @@ public class CardDAO {
 
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                card = generateCard(resultSet);
+                card = generateDeepCard(resultSet);
             }
             resultSet.close();
             ps.close();
@@ -66,15 +66,20 @@ public class CardDAO {
 	public boolean addCard(Card card) throws Exception {
 		try {
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO Cards "
-					+ "(cardID, recipient, eventType, orientation) "
-					+ "values(?,?,?,?);");
+					+ "(cardID, recipient, eventType, orientation, frontPage, leftPage, rightPage, backPage) "
+					+ "values(?,?,?,?,?,?,?,?);");
             ps.setString(1, card.getCardID());
             ps.setString(2, card.getRecipient());
             ps.setString(3, card.getEventType());
             ps.setString(4, card.getOrientation());
+            ps.setString(5, card.getFrontPage().getPageID());
+            ps.setString(6, card.getLeftPage().getPageID());
+            ps.setString(7, card.getRightPage().getPageID());
+            ps.setString(8, card.getBackPage().getPageID());
             ps.execute();
             return true;
         } catch (Exception e) {
+        	e.printStackTrace();
             throw new Exception("Failed to insert card: " + e.getMessage());
         }
 		
@@ -91,6 +96,26 @@ public class CardDAO {
         Page backPage = pageDAO.getPageByID(res.getString("backPage"));
 
         return new Card (cardID, recipient, eventType, orientation, );
+    }
+    
+    private Card generateDeepCard(ResultSet res) throws Exception {
+    	String cardID = res.getString("cardID");
+        String recipient  = res.getString("recipient");
+        String eventType = res.getString("eventType");
+        String orientation = res.getString("orientation");
+        
+        String frontPageID = res.getString("frontPage");
+        String leftPageID = res.getString("leftPage");
+        String rightPageID = res.getString("rightPage");
+        String backPageID = res.getString("backPage");
+        
+        Card genCard = new Card (cardID, recipient, eventType, orientation);
+        genCard.setFrontPage(new Page(frontPageID));
+        genCard.setLeftPage(new Page(leftPageID));
+        genCard.setRightPage(new Page(rightPageID));
+        genCard.setBackPage(new Page(backPageID, 0));
+        
+        return genCard;
     }
     
     public List<Card> getAllCards() throws Exception{
