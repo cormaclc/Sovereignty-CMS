@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.sovereignty.model.Page;
+import com.sovereignty.model.VisualElement;
 
 public class PageDAO {
 	java.sql.Connection conn;
@@ -81,6 +82,20 @@ public class PageDAO {
         List<VisualElement> listVE = new VisualElementDAO().getVisualElementByPageID(pageID);
         
         return new Page (pageID, isModifiable, listVE);
+    }
+    
+    public boolean updatePage(Page page) throws Exception{
+    	try {
+    		VisualElementDAO vd = new VisualElementDAO();
+    		for(VisualElement ve : page.getListVisualElements()) {
+    			vd.update(ve);
+    		}
+    		
+    		return (true);
+    		
+    	}catch (Exception e) {
+			throw new Exception("Failed to update Page: "+e.getMessage());
+		}
     }
     
     public boolean deletePage(String pageID) throws Exception{

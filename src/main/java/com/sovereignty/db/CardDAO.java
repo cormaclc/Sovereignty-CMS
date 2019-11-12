@@ -90,32 +90,8 @@ public class CardDAO {
         String recipient  = res.getString("recipient");
         String eventType = res.getString("eventType");
         String orientation = res.getString("orientation");
-        Page frontPage = pageDAO.getPageByID(res.getString("frontPage"));
-        Page leftPage = pageDAO.getPageByID(res.getString("leftPage"));
-        Page rightPage = pageDAO.getPageByID(res.getString("rightPage"));
-        Page backPage = pageDAO.getPageByID(res.getString("backPage"));
-
-        return new Card (cardID, recipient, eventType, orientation, frontPage, leftPage, rightPage, backPage);
-    }
-    
-    private Card generateDeepCard(ResultSet res) throws Exception {
-    	String cardID = res.getString("cardID");
-        String recipient  = res.getString("recipient");
-        String eventType = res.getString("eventType");
-        String orientation = res.getString("orientation");
-        
-        String frontPageID = res.getString("frontPage");
-        String leftPageID = res.getString("leftPage");
-        String rightPageID = res.getString("rightPage");
-        String backPageID = res.getString("backPage");
-        
-        Card genCard = new Card (cardID, recipient, eventType, orientation);
-        genCard.setFrontPage(new Page(frontPageID));
-        genCard.setLeftPage(new Page(leftPageID));
-        genCard.setRightPage(new Page(rightPageID));
-        genCard.setBackPage(new Page(backPageID, 0));
-        
-        return genCard;
+     
+        return new Card (cardID, recipient, eventType, orientation);
     }
     
     private Card generateDeepCard(ResultSet res) throws Exception {
@@ -154,6 +130,42 @@ public class CardDAO {
     	}catch (Exception e) {
     		throw new Exception("Failed getting all cards: "+ e.getMessage());
     	}    	
+    }
+    
+    private Card updateShallowCard(Card card) throws Exception {
+    	try {
+    		PreparedStatement ps = conn.prepareStatement("UPDATE Cards SET recipient=? eventType=? orientation=? WHERE cardID = ?;");
+    		ps.setString(1, card.getRecipient());
+    		ps.setString(2, card.getEventType());
+    		ps.setString(1, card.getOrientation());
+    		ps.setString(1, card.getCardID());
+    		
+    		int numAffected = ps.executeUpdate();
+    		ps.close();
+    		
+    		if(numAffected == 1) {
+    			return card;
+    		} else {
+    			return null;
+    		}
+    	}catch (Exception e) {
+			throw new Exception("Failed to delete Card: "+e.getMessage());
+		}
+    }
+    
+    public Card updateCard(Card card) throws Exception {
+    	try {
+    		updateShallowCard(card);
+    		
+    		// Update Pages
+    		pageDAO.updatePage(card.getFrontPage());
+    		pageDAO.updatePage(card.getLeftPage());
+    		pageDAO.updatePage(card.getRightPage());
+    		
+    		return card;
+    	}catch (Exception e) {
+			throw new Exception("Failed to delete Card: "+e.getMessage());
+		}
     }
     
     public boolean deleteCard(String cardID) throws Exception{

@@ -6,7 +6,6 @@ public class Card {
 	String recipient;
 	String eventType;
 	String orientation;
-	Page frontPage, leftPage, rightPage, backPage;
 	
 	Page frontPage;
 	Page leftPage;
