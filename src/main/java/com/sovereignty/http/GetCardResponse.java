@@ -17,4 +17,14 @@ public class GetCardResponse {
 		this.error = errorMessage;
 		this.card = card;
 	}
+
+	public Card getCard() {
+		return card;
+	}
+
+	public int getCode() {
+		return code;
+	}
+	
+	
 }

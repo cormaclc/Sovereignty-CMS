@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.sovereignty.http.GetCardRequest;
+import com.sovereignty.http.GetCardResponse;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.
@@ -19,7 +20,8 @@ public class GetCardTest {
     @BeforeClass
     public static void createInput() throws IOException {
         // TODO: set up your sample input object here.
-        input = null;
+        input = new GetCardRequest();
+        input.setCardID("ce8abc20-ff61-11e9-");
     }
 
     private Context createContext() {
@@ -36,9 +38,12 @@ public class GetCardTest {
         GetCardHandler handler = new GetCardHandler();
         Context ctx = createContext();
 
-        String output = handler.handleRequest(input, ctx);
+        GetCardResponse output = handler.handleRequest(input, ctx);
 
         // TODO: validate output here if needed.
-        Assert.assertEquals("Hello from Lambda!", output);
+        Assert.assertEquals(200, output.getCode());
+//        Assert.assertEquals("ANNIVERSARY", output.getCard().getEventType());
+//        Assert.assertEquals("Andrew", output.getCard().getRecipient());
+//        Assert.assertEquals("PORTRAIT", output.getCard().getOrientation());
     }
 }
