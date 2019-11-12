@@ -77,8 +77,9 @@ public class PageDAO {
     private Page generatePage(ResultSet res) throws Exception {
     	String pageID = res.getString("pageID");
         int isModifiable  = res.getInt("isModifiable");
+        List<VisualElement> listVE = new VisualElementDAO().getVisualElementByPageID(pageID);
         
-        return new Page (pageID, isModifiable);
+        return new Page (pageID, isModifiable, listVE);
     }
     
     public boolean deletePage(String pageID) throws Exception{
@@ -94,4 +95,6 @@ public class PageDAO {
 			throw new Exception("Failed to delete Page: "+e.getMessage());
 		}
     }
+		
 }
+

@@ -17,7 +17,8 @@ import com.sovereignty.model.Card;
   public class GetAllCardsHandler implements RequestHandler<Object, AllCardsResponse> {
   
 	  public AllCardsResponse handleRequest(Object input, Context context) {
-		  context.getLogger().log("Input: "+ input); CardDAO cardsDAO = new CardDAO();
+		  context.getLogger().log("Input: "+ input); 
+		  CardDAO cardsDAO = new CardDAO();
 	  
 	  try { 
 		  List<Card> allCards = cardsDAO.getAllCards(); 

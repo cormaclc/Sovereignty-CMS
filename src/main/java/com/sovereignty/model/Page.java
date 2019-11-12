@@ -1,24 +1,16 @@
 package com.sovereignty.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Page {
-	
 	String pageID;
 	int isModifiable;
+	List<VisualElement> listVisualElements; 
 	
-	ArrayList<VisualElement> elements;
-	
-	public Page(String pageID) {
-		this.pageID = pageID;
-		this.isModifiable = 1;
-		this.elements = new ArrayList<VisualElement>();
-	}
-	
-	public Page(String pageID, int isModifiable) {
+	public Page(String pageID, int isModifiable, List<VisualElement> listVE) {
 		this.pageID = pageID;
 		this.isModifiable = isModifiable;
-		this.elements = new ArrayList<VisualElement>();
+		this.listVisualElements = listVE;
 	}
 
 	public String getPageID() {
@@ -37,14 +29,13 @@ public class Page {
 		this.isModifiable = isModifiable;
 	}
 
-	public ArrayList<VisualElement> getElements() {
-		return elements;
+	public List<VisualElement> getListVisualElements() {
+		return listVisualElements;
 	}
 
-	public void setElements(ArrayList<VisualElement> elements) {
-		this.elements = elements;
+	public void setListVisualElements(List<VisualElement> listVisualElements) {
+		this.listVisualElements = listVisualElements;
 	}
-	
 	
 	
 }
