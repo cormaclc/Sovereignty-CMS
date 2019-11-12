@@ -16,7 +16,8 @@ public class GetImageHandler implements RequestHandler<Object, String> {
         }catch (Exception e) {
 			// TODO: handle exception
 		}
-        return new GetImageRequest();
+        //return new GetImageRequest();
+        return "";
     }
 
 }

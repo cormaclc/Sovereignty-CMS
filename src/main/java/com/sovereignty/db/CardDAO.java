@@ -95,7 +95,27 @@ public class CardDAO {
         Page rightPage = pageDAO.getPageByID(res.getString("rightPage"));
         Page backPage = pageDAO.getPageByID(res.getString("backPage"));
 
-        return new Card (cardID, recipient, eventType, orientation, );
+        return new Card (cardID, recipient, eventType, orientation, frontPage, leftPage, rightPage, backPage);
+    }
+    
+    private Card generateDeepCard(ResultSet res) throws Exception {
+    	String cardID = res.getString("cardID");
+        String recipient  = res.getString("recipient");
+        String eventType = res.getString("eventType");
+        String orientation = res.getString("orientation");
+        
+        String frontPageID = res.getString("frontPage");
+        String leftPageID = res.getString("leftPage");
+        String rightPageID = res.getString("rightPage");
+        String backPageID = res.getString("backPage");
+        
+        Card genCard = new Card (cardID, recipient, eventType, orientation);
+        genCard.setFrontPage(new Page(frontPageID));
+        genCard.setLeftPage(new Page(leftPageID));
+        genCard.setRightPage(new Page(rightPageID));
+        genCard.setBackPage(new Page(backPageID, 0));
+        
+        return genCard;
     }
     
     private Card generateDeepCard(ResultSet res) throws Exception {

@@ -26,6 +26,14 @@ public class Card {
 		this.rightPage = right;
 		this.backPage = back;
 	}
+	
+	public Card(String cardID, String recipientName, String eventType, String orientation) {
+		this.cardID = cardID;
+		this.recipient = recipientName;
+		this.eventType = eventType;
+		this.orientation = orientation;
+
+	}
 
 	public String getCardID() {
 		return cardID;
