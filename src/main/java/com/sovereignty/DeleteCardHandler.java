@@ -27,17 +27,10 @@ public class DeleteCardHandler implements RequestHandler<DeleteCardRequest, Dele
 			if (validationError != null) {
 				return new DeleteCardResponse(400, validationError);
 			}
-
-			Card to_delete = cardDao.getCardByID(input.getCardID());
 			
 			boolean cardDeleted = cardDao.deleteCard(input.getCardID());
-
-			boolean frontDeleted = pageDao.deletePage(to_delete.getFrontPage().getPageID());
-			boolean leftDeleted = pageDao.deletePage(to_delete.getLeftPage().getPageID());
-			boolean rightDeleted = pageDao.deletePage(to_delete.getRightPage().getPageID());
 			
-			
-			if (!cardDeleted || !frontDeleted || !leftDeleted || !rightDeleted) {
+			if (!cardDeleted) {
 				return new DeleteCardResponse(500, "failed deleting Card " + input.getCardID());
 			}
 			

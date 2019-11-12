@@ -84,14 +84,41 @@ public class PageDAO {
         return new Page (pageID, isModifiable, listVE);
     }
     
+    public boolean updatePage(Page page) throws Exception{
+    	try {
+    		VisualElementDAO vd = new VisualElementDAO();
+    		for(VisualElement ve : page.getListVisualElements()) {
+    			vd.update(ve);
+    		}
+    		
+    		return (true);
+    		
+    	}catch (Exception e) {
+			throw new Exception("Failed to update Page: "+e.getMessage());
+		}
+    }
+    
     public boolean deletePage(String pageID) throws Exception{
     	try {
+    		Page p = getPageByID(pageID);
+
+    		// Delete all the elements associated with the Page
+    		VisualElementDAO vd = new VisualElementDAO();
+    		boolean elementsDeleted = true;
+    		for(VisualElement ve : p.getListVisualElements()) {
+    			ve.setUpdated(VisualElementDAO.DELETE);
+    			if (vd.update(ve) == null) elementsDeleted = false;
+    		}
+    		
+    		// Delete the Actual Page second
+    		// Makes sure Foreign Key constraint in Elements table is not lost
+    		// after deleting the Page
     		PreparedStatement ps = conn.prepareStatement("DELETE FROM Pages WHERE pageID = ?;");
     		ps.setString(1, pageID);
     		int numAffected = ps.executeUpdate();
     		ps.close();
     		
-    		return (numAffected == 1);
+    		return (numAffected == 1) && elementsDeleted;
     		
     	}catch (Exception e) {
 			throw new Exception("Failed to delete Page: "+e.getMessage());

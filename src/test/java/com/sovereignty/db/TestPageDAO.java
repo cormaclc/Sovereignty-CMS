@@ -17,6 +17,7 @@ public class TestPageDAO extends TestCase {
 	    	Page p = pd.getPageByID("default_back");
 	    	assertEquals(p.getPageID(), "default_back");
 	    	assertEquals(p.getIsModifiable(), 0);
+	    	assertEquals(p.getListVisualElements().size(), 1);
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    	fail ("didn't work:" + e.getMessage());
@@ -56,6 +57,8 @@ public class TestPageDAO extends TestCase {
 	    	Page p2 = pd.getPageByID(pageID);
 	    	assertEquals(p2.getPageID(), pageID);
 	    	assertEquals(p2.getIsModifiable(), 1);
+	    	assertEquals(p2.getListVisualElements().size(), 0);
+
 	    	
 	    	// can delete it
 	    	assertTrue (pd.deletePage(p2.getPageID()));

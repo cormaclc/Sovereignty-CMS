@@ -9,6 +9,24 @@ public class VisualElement {
 	String imageURL;
 	String pageID;
 	
+	public VisualElement() {} // constructor for text
+	
+	public VisualElement(String image) {} // constructor for Image
+	
+	public VisualElement(String eltID, String eltType, int xPos, int yPos, int height, int width, String text, String font, String imageURL, String pageID, int updated) {
+		this.eltID = eltID;
+		this.eltType = eltType;
+		this.xPosition = xPos;
+		this.yPosition = yPos;
+		this.height = height;
+		this.width = width;
+		this.text = text;
+		this.font = font; 
+		this.imageURL = imageURL;
+		this.pageID = pageID;
+		this.updated = updated;
+	}
+	
 	public String getEltID() {
 		return eltID;
 	}
@@ -76,6 +94,5 @@ public class VisualElement {
 	public void setPageID(String pageID) {
 		this.pageID = pageID;
 	}
-	public VisualElement() {} // constructor for text
-	public VisualElement(String image) {} // constructor for Image
+	
 }
