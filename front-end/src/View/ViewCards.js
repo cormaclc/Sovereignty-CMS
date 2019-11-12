@@ -2,6 +2,7 @@ import React from 'react'
 import { deleteCard } from '../api-js/api-interaction'
 import { Button } from 'react-bootstrap'
 import AddCard from '../Add/AddCard'
+import {Link} from 'react-router-dom'
 
 const baseUrl = 'https://ezsx1v4va5.execute-api.us-east-1.amazonaws.com/alpha'
 
@@ -28,7 +29,7 @@ function ViewCards() {
                 console.log('error')  
             }
         };
-    });
+    }, []);
 
     return (
         <div className='container'>
@@ -44,8 +45,11 @@ function ViewCards() {
                     <div className='row p-1' key={c.cardID}>
                         <div className='col-sm'>{c.recipient}</div>
                         <div className='col-sm'>{c.event}</div>
-                        <div className='col-sm'>{c.orientation}</div>
+                        <div className='col-sm'>{c.orientation}</div>               
                         <div className='col-sm'>
+                            <Link to={`editCard/${c.cardID}`}>
+                                <Button variant='outline-warning' className='mr-2'>Edit</Button>
+                            </Link>
                             <Button variant='outline-danger' onClick={() => {if(window.confirm(`Are you sure you want to delete the ${c.eventType} card for ${c.recipient}?`)){handleDelete(c.cardID)}}}>Delete</Button>
                         </div>
                     </div>
