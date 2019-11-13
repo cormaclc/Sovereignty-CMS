@@ -33,116 +33,117 @@ function EditCard() {
 
     React.useEffect(() => {
 
-        // var xhr = new XMLHttpRequest();
-        // xhr.open("GET", `${baseUrl}/getCard/${cardID}`, true);
-        // xhr.send();
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", `${baseUrl}/getCard/${cardID}`, true);
+        xhr.send();
     
-        // // This will process results and update HTML as appropriate. 
-        // xhr.onloadend = function () {
-        //     if (xhr.readyState === XMLHttpRequest.DONE) {
-        //         let card = JSON.parse(xhr.responseText).card
-        //         setCard(card)
-        //         setPositionChanges({
-        //             'frontPage': card.frontPage.elements,
-        //             'leftPage': card.leftPage.elements,
-        //             'rightPage': card.rightPage.elements,
-        //         })
-        //     } else {
-        //         console.log('error')  
-        //     }
-        // };
+        // This will process results and update HTML as appropriate. 
+        xhr.onloadend = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                let card = JSON.parse(xhr.responseText).card
+                setCard(card)
+                console.log(card)
+                setPositionChanges({
+                    'frontPage': card.frontPage.elements,
+                    'leftPage': card.leftPage.elements,
+                    'rightPage': card.rightPage.elements,
+                })
+            } else {
+                console.log('error')  
+            }
+        };
 
         // Call get one card here
-        setCard({
-            "cardID": cardID,
-            "event": "Birthday",
-            "recipient": "Cormac",
-            "orientation": "Landscape",
-            "frontPage": {
-                "pageID": 123,
-                "isModifiable": true,
-                "elements": [
-                    {
-                        uuid: 1,
-                        eltType: 'Text',
-                        text:'frontPage',
-                        xPosition: 100,
-                        yPosition: 300,
-                        height: 200,
-                        width: 200,
-                    }
-                ]
-            },
-            "leftPage": {
-                "pageID": 10,
-                "isModifiable": true,
-                "elements": [
-                    {
-                        uuid: 2,
-                        eltType: 'Text',
-                        text:'leftPage',
-                        xPosition: 100,
-                        yPosition: 100,
-                        height: 200,
-                        width: 400,
-                    }
-                ]
-            },
-            "rightPage": {
-                "pageID": 8,
-                "isModifiable": true,
-                "elements": [
-                    {
-                        uuid: 3,
-                        eltType: 'Text',
-                        text:'rightPage',
-                        xPosition: 100,
-                        yPosition: 100,
-                        height: 100,
-                        width: 500,
-                    }
-                ]
-            },
-            "backPage": {
-                "pageID": 2, 
-                "isModifiable": false,
-                "elements": [
-                    {
-                        uuid: 4,
-                        eltType: 'Text',
-                        text:'backPage',
-                        xPosition: 100,
-                        yPosition: 100,
-                        height: 100,
-                        width: 200,
-                    }
-                ]
-            },
-        })
+        // setCard({
+        //     "cardID": cardID,
+        //     "event": "Birthday",
+        //     "recipient": "Cormac",
+        //     "orientation": "Landscape",
+        //     "frontPage": {
+        //         "pageID": 123,
+        //         "isModifiable": true,
+        //         "elements": [
+        //             {
+        //                 uuid: 1,
+        //                 eltType: 'Text',
+        //                 text:'frontPage',
+        //                 xPosition: 100,
+        //                 yPosition: 300,
+        //                 height: 200,
+        //                 width: 200,
+        //             }
+        //         ]
+        //     },
+        //     "leftPage": {
+        //         "pageID": 10,
+        //         "isModifiable": true,
+        //         "elements": [
+        //             {
+        //                 uuid: 2,
+        //                 eltType: 'Text',
+        //                 text:'leftPage',
+        //                 xPosition: 100,
+        //                 yPosition: 100,
+        //                 height: 200,
+        //                 width: 400,
+        //             }
+        //         ]
+        //     },
+        //     "rightPage": {
+        //         "pageID": 8,
+        //         "isModifiable": true,
+        //         "elements": [
+        //             {
+        //                 uuid: 3,
+        //                 eltType: 'Text',
+        //                 text:'rightPage',
+        //                 xPosition: 100,
+        //                 yPosition: 100,
+        //                 height: 100,
+        //                 width: 500,
+        //             }
+        //         ]
+        //     },
+        //     "backPage": {
+        //         "pageID": 2, 
+        //         "isModifiable": false,
+        //         "elements": [
+        //             {
+        //                 uuid: 4,
+        //                 eltType: 'Text',
+        //                 text:'backPage',
+        //                 xPosition: 100,
+        //                 yPosition: 100,
+        //                 height: 100,
+        //                 width: 200,
+        //             }
+        //         ]
+        //     },
+        // })
 
-        setPositionChanges({
-            'frontPage': [
-                {
-                    uuid: 1,
-                    x: 0,
-                    y: 0
-                }
-            ],
-            'leftPage': [
-                {
-                    uuid: 2,
-                    x: 0,
-                    y: 0
-                }
-            ],
-            'rightPage': [
-                {
-                    uuid: 3,
-                    x: 0,
-                    y: 0
-                }
-            ]
-        })
+        // setPositionChanges({
+        //     'frontPage': [
+        //         {
+        //             uuid: 1,
+        //             x: 0,
+        //             y: 0
+        //         }
+        //     ],
+        //     'leftPage': [
+        //         {
+        //             uuid: 2,
+        //             x: 0,
+        //             y: 0
+        //         }
+        //     ],
+        //     'rightPage': [
+        //         {
+        //             uuid: 3,
+        //             x: 0,
+        //             y: 0
+        //         }
+        //     ]
+        // })
         
     }, [cardID]) // only re-run if cardID changes
 
@@ -262,7 +263,7 @@ function EditCard() {
 
     return (
         <div className="card-wrapper">
-            <h1>{card.recipient}: {card.event}</h1>
+            <h1>{card.recipient}: {card.eventType}</h1>
             <Tabs defaultActiveKey="front">
                 <Tab eventKey="front" title="Front" className='w-100'>
                     <EditPage selectedID={selectedElt.uuid} page={card.frontPage} update={update} landscape={card.orientation} pageName='frontPage' updatePosition={updateEltPos} handleElementSelect={handleElementSelect}/>
