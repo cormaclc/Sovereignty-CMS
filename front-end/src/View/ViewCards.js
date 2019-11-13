@@ -3,8 +3,7 @@ import { deleteCard } from '../api-js/api-interaction'
 import { Button } from 'react-bootstrap'
 import AddCard from '../Add/AddCard'
 import {Link} from 'react-router-dom'
-
-const baseUrl = 'https://ezsx1v4va5.execute-api.us-east-1.amazonaws.com/alpha'
+import { baseUrl } from '../api-js/api-interaction'
 
 
 function ViewCards() {
@@ -44,7 +43,7 @@ function ViewCards() {
                 return (
                     <div className='row p-1' key={c.cardID}>
                         <div className='col-sm'>{c.recipient}</div>
-                        <div className='col-sm'>{c.event}</div>
+                        <div className='col-sm'>{c.eventType}</div>
                         <div className='col-sm'>{c.orientation}</div>               
                         <div className='col-sm'>
                             <Link to={`editCard/${c.cardID}`}>

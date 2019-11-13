@@ -55,7 +55,9 @@ function EditPage(props) {
         <>
             <PageWrapper landscape = {props.landscape === 'Landscape'}>
                 {props.page.elements.map((el) => {
-                    if (props.page.isModifiable) {
+                    if (el.updated === 2) {
+                        return (<div key={el.uuid}></div>) 
+                    } else if (props.page.isModifiable) {
                         return(
                             <Draggable onStop={() => handleStop(el.uuid)} onDrag={handleDrag} defaultPosition={{x:el.xPosition, y:el.yPosition}} bounds={'parent'} key={el.uuid}>
                                 <Element border={props.selectedID === el.uuid} font={el.font} width={`${el.width}px`} height={`${el.height}px`}>{el.text}</Element>

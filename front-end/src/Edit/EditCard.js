@@ -5,6 +5,8 @@ import EditPage from './EditPage'
 import {Tabs, Tab, Button} from 'react-bootstrap'
 import AddCard from '../Add/AddElement'
 import EditElement from './EditElement'
+//eslint-disable-next-line      
+import { baseUrl } from '../api-js/api-interaction'
 
 const initialCard = {
     'frontPage': {
@@ -30,6 +32,26 @@ function EditCard() {
     const [update, setUpdate] = React.useState(0)
 
     React.useEffect(() => {
+
+        // var xhr = new XMLHttpRequest();
+        // xhr.open("GET", `${baseUrl}/getCard/${cardID}`, true);
+        // xhr.send();
+    
+        // // This will process results and update HTML as appropriate. 
+        // xhr.onloadend = function () {
+        //     if (xhr.readyState === XMLHttpRequest.DONE) {
+        //         let card = JSON.parse(xhr.responseText).card
+        //         setCard(card)
+        //         setPositionChanges({
+        //             'frontPage': card.frontPage.elements,
+        //             'leftPage': card.leftPage.elements,
+        //             'rightPage': card.rightPage.elements,
+        //         })
+        //     } else {
+        //         console.log('error')  
+        //     }
+        // };
+
         // Call get one card here
         setCard({
             "cardID": cardID,
@@ -128,13 +150,30 @@ function EditCard() {
 
         // Use the position changes to update the new positions before sending to database
 
-        console.log(positionChanges)
+        let c = card;
+        console.log(card)
+
+        const updatePositions = (page) => {
+            let arr = []
+            positionChanges[page].forEach(e => {
+                let matching_el = c[page].elements.filter(function(el) { return el.uuid === e.uuid; })[0];
+                if ((e.x !== 0 || e.y !== 0) && matching_el.updated !== 2) {
+                    matching_el.xPosition = matching_el.xPosition + e.x;
+                    matching_el.yPosition = matching_el.yPosition + e.y; 
+                    matching_el.updated = 1;
+                }
+                arr.push(matching_el)
+            })
+            return arr;
+        }
+        
+        c.frontPage.elements = updatePositions('frontPage');
+        c.leftPage.elements = updatePositions('leftPage');
+        c.rightPage.elements = updatePositions('rightPage');
+
     }
 
     const addElement = (eltInfo, page) => {
-
-
-        console.log(eltInfo)
 
         let c = card;
         if (page === 'Front Page') {
@@ -180,17 +219,17 @@ function EditCard() {
         let c = card;
         c['frontPage'].elements.forEach(e => {
             if(e.uuid === eltID){ 
-                c['frontPage'].elements.splice(c['frontPage'].elements.indexOf(e))
+                e.updated = 2;
             }
         })
         c['leftPage'].elements.forEach(e => {
             if(e.uuid === eltID){ 
-                c['leftPage'].elements.splice(c['leftPage'].elements.indexOf(e))
+                e.updated = 2;
             }
         })
         c['rightPage'].elements.forEach(e => {
             if(e.uuid === eltID){ 
-                c['rightPage'].elements.splice(c['rightPage'].elements.indexOf(e))
+                e.updated = 2;
             }
         })
         setCard(c)
