@@ -54,18 +54,18 @@ function EditPage(props) {
     return (
         <>
             <PageWrapper landscape = {props.landscape === 'Landscape'}>
-                {props.page.elements.map((el) => {
+                {props.page.listVisualElements.map((el) => {
                     if (el.updated === 2) {
-                        return (<div key={el.uuid}></div>) 
+                        return (<div key={el.eltID}></div>) 
                     } else if (props.page.isModifiable) {
                         return(
-                            <Draggable onStop={() => handleStop(el.uuid)} onDrag={handleDrag} defaultPosition={{x:el.xPosition, y:el.yPosition}} bounds={'parent'} key={el.uuid}>
-                                <Element border={props.selectedID === el.uuid} font={el.font} width={`${el.width}px`} height={`${el.height}px`}>{el.text}</Element>
+                            <Draggable onStop={() => handleStop(el.eltID)} onDrag={handleDrag} defaultPosition={{x:el.xPosition, y:el.yPosition}} bounds={'parent'} key={el.eltID}>
+                                <Element border={props.selectedID === el.eltID} font={el.font} width={`${el.width}px`} height={`${el.height}px`}>{el.text}</Element>
                             </Draggable>
                         )
                     } else {
                         return(
-                            <Draggable onStart={() => false} defaultPosition={{x:el.xPosition, y:el.yPosition}} bounds={'parent'} key={el.uuid}>
+                            <Draggable onStart={() => false} defaultPosition={{x:el.xPosition, y:el.yPosition}} bounds={'parent'} key={el.eltID}>
                                 <Element font={el.font} width={`${el.width}px`} height={`${el.height}px`}>{el.text}</Element>
                             </Draggable>
                         )

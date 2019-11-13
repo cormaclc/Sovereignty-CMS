@@ -10,16 +10,16 @@ import { baseUrl } from '../api-js/api-interaction'
 
 const initialCard = {
     'frontPage': {
-        'elements': []
+        'listVisualElements': []
     },
     'leftPage': {
-        'elements': []
+        'listVisualElements': []
     },
     'rightPage': {
-        'elements': []
+        'listVisualElements': []
     },
     'backPage': {
-        'elements': []
+        'listVisualElements': []
     }
 }
 
@@ -44,9 +44,9 @@ function EditCard() {
                 setCard(card)
                 console.log(card)
                 setPositionChanges({
-                    'frontPage': card.frontPage.elements,
-                    'leftPage': card.leftPage.elements,
-                    'rightPage': card.rightPage.elements,
+                    'frontPage': card.frontPage.listVisualElements,
+                    'leftPage': card.leftPage.listVisualElements,
+                    'rightPage': card.rightPage.listVisualElements,
                 })
             } else {
                 console.log('error')  
@@ -157,7 +157,7 @@ function EditCard() {
         const updatePositions = (page) => {
             let arr = []
             positionChanges[page].forEach(e => {
-                let matching_el = c[page].elements.filter(function(el) { return el.uuid === e.uuid; })[0];
+                let matching_el = c[page].listVisualElements.filter(function(el) { return el.eltID === e.eltID; })[0];
                 if ((e.x !== 0 || e.y !== 0) && matching_el.updated !== 2) {
                     matching_el.xPosition = matching_el.xPosition + e.x;
                     matching_el.yPosition = matching_el.yPosition + e.y; 
@@ -168,9 +168,9 @@ function EditCard() {
             return arr;
         }
         
-        c.frontPage.elements = updatePositions('frontPage');
-        c.leftPage.elements = updatePositions('leftPage');
-        c.rightPage.elements = updatePositions('rightPage');
+        c.frontPage.listVisualElements = updatePositions('frontPage');
+        c.leftPage.listVisualElements = updatePositions('leftPage');
+        c.rightPage.listVisualElements = updatePositions('rightPage');
 
     }
 
@@ -178,11 +178,11 @@ function EditCard() {
 
         let c = card;
         if (page === 'Front Page') {
-            c.frontPage.elements.push(eltInfo)
+            c.frontPage.listVisualElements.push(eltInfo)
         } else if (page === 'Left Page') {
-            c.leftPage.elements.push(eltInfo)
+            c.leftPage.listVisualElements.push(eltInfo)
         } else {
-            c.rightPage.elements.push(eltInfo)
+            c.rightPage.listVisualElements.push(eltInfo)
         }
 
         setCard(c)
@@ -198,18 +198,18 @@ function EditCard() {
 
     const updateElt = (elt) => {
         let c = card;
-        c['frontPage'].elements.forEach(e => {
-            if(e.uuid === elt.uuid){ 
+        c['frontPage'].listVisualElements.forEach(e => {
+            if(e.eltID === elt.eltID){ 
                 e = elt
             }
         })
-        c['leftPage'].elements.forEach(e => {
-            if(e.uuid === elt.uuid){ 
+        c['leftPage'].listVisualElements.forEach(e => {
+            if(e.eltID === elt.eltID){ 
                 e = elt 
             }
         })
-        c['rightPage'].elements.forEach(e => {
-            if(e.uuid === elt.uuid){ 
+        c['rightPage'].listVisualElements.forEach(e => {
+            if(e.eltID === elt.eltID){ 
                 e = elt 
             }
         })
@@ -218,18 +218,18 @@ function EditCard() {
     } 
     const deleteElt = (eltID) => {
         let c = card;
-        c['frontPage'].elements.forEach(e => {
-            if(e.uuid === eltID){ 
+        c['frontPage'].listVisualElements.forEach(e => {
+            if(e.eltID === eltID){ 
                 e.updated = 2;
             }
         })
-        c['leftPage'].elements.forEach(e => {
-            if(e.uuid === eltID){ 
+        c['leftPage'].listVisualElements.forEach(e => {
+            if(e.eltID === eltID){ 
                 e.updated = 2;
             }
         })
-        c['rightPage'].elements.forEach(e => {
-            if(e.uuid === eltID){ 
+        c['rightPage'].listVisualElements.forEach(e => {
+            if(e.eltID === eltID){ 
                 e.updated = 2;
             }
         })
@@ -241,7 +241,7 @@ function EditCard() {
 
         let pc = positionChanges;
         pc[pageName].forEach(el => {
-            if(el.uuid === elID) {
+            if(el.eltID === elID) {
                 el.x = newCoords.x
                 el.y = newCoords.y
             }
@@ -253,8 +253,8 @@ function EditCard() {
 
     const handleElementSelect = (elID, pageName) => {
         let elt = {}
-        card[pageName].elements.forEach(e => {
-            if(e.uuid === elID) {
+        card[pageName].listVisualElements.forEach(e => {
+            if(e.eltID === elID) {
                 elt = e
             }
         })
@@ -266,16 +266,16 @@ function EditCard() {
             <h1>{card.recipient}: {card.eventType}</h1>
             <Tabs defaultActiveKey="front">
                 <Tab eventKey="front" title="Front" className='w-100'>
-                    <EditPage selectedID={selectedElt.uuid} page={card.frontPage} update={update} landscape={card.orientation} pageName='frontPage' updatePosition={updateEltPos} handleElementSelect={handleElementSelect}/>
+                    <EditPage selectedID={selectedElt.eltID} page={card.frontPage} update={update} landscape={card.orientation} pageName='frontPage' updatePosition={updateEltPos} handleElementSelect={handleElementSelect}/>
                 </Tab>
                 <Tab eventKey="left" title="Left" className="tab">
-                    <EditPage selectedID={selectedElt.uuid} page={card.leftPage} update={update} landscape={card.orientation} pageName='leftPage' updatePosition={updateEltPos} handleElementSelect={handleElementSelect}/>
+                    <EditPage selectedID={selectedElt.eltID} page={card.leftPage} update={update} landscape={card.orientation} pageName='leftPage' updatePosition={updateEltPos} handleElementSelect={handleElementSelect}/>
                 </Tab>
                 <Tab eventKey="right" title="Right">
-                    <EditPage selectedID={selectedElt.uuid} page={card.rightPage} update={update} landscape={card.orientation} pageName='rightPage' updatePosition={updateEltPos} handleElementSelect={handleElementSelect}/>
+                    <EditPage selectedID={selectedElt.eltID} page={card.rightPage} update={update} landscape={card.orientation} pageName='rightPage' updatePosition={updateEltPos} handleElementSelect={handleElementSelect}/>
                 </Tab>
                 <Tab eventKey="back" title="Back">
-                    <EditPage selectedID={selectedElt.uuid} page={card.backPage} update={update} landscape={card.orientation} pageName='backPage' updatePosition={updateEltPos} handleElementSelect={handleElementSelect}/>
+                    <EditPage selectedID={selectedElt.eltID} page={card.backPage} update={update} landscape={card.orientation} pageName='backPage' updatePosition={updateEltPos} handleElementSelect={handleElementSelect}/>
                 </Tab>
             </Tabs>
             <div className="w-50 d-flex justify-content-between mb-2">
