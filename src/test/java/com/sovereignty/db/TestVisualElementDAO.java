@@ -189,5 +189,42 @@ public class TestVisualElementDAO extends TestCase {
 			fail("didn't work:" + e.getMessage());
 		}
 	}
+	
+	public void testDeleteNonElement() {
+		VisualElementDAO vd = new VisualElementDAO();
+		try {
+			// can add it
+			VisualElement ve = new VisualElement();
+			ve.setEltID("test");
+			ve.setEltType("TEXT");
+			ve.setxPosition(1);
+			ve.setyPosition(1);
+			ve.setHeight(1);
+			ve.setWidth(1);
+			ve.setText("RANDOM UPDATED TEXT");
+			ve.setFont("ANDREW'S FONT");
+			
+			// NEW element so set isUpdated to 1
+			ve.setUpdated(VisualElementDAO.DELETE);
+			
+			VisualElement updated_elt = vd.update(ve);
+			
+			// Check
+			assertEquals("test",updated_elt.getEltID());
+			assertEquals("TEXT",updated_elt.getEltType());
+			assertEquals(1,updated_elt.getxPosition());
+			assertEquals(1,updated_elt.getyPosition());
+			assertEquals(1,updated_elt.getHeight());
+			assertEquals(1,updated_elt.getWidth());
+			assertEquals("RANDOM UPDATED TEXT", updated_elt.getText());
+			assertEquals("ANDREW'S FONT", updated_elt.getFont());
+			// Updated is reset
+			assertEquals(VisualElementDAO.UNCHANGED ,updated_elt.getUpdated());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("didn't work:" + e.getMessage());
+		}
+	}
 
 }

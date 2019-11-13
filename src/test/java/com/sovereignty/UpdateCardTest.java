@@ -7,13 +7,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.sovereignty.http.UpdateCardRequest;
+import com.sovereignty.http.UpdateCardResponse;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
 public class UpdateCardTest {
 
-    private static Object input;
+    private static UpdateCardRequest input;
 
     @BeforeClass
     public static void createInput() throws IOException {
@@ -35,7 +37,7 @@ public class UpdateCardTest {
         UpdateCardHandler handler = new UpdateCardHandler();
         Context ctx = createContext();
 
-        String output = handler.handleRequest(input, ctx);
+        UpdateCardResponse output = handler.handleRequest(input, ctx);
 
         // TODO: validate output here if needed.
         Assert.assertEquals("Hello from Lambda!", output);

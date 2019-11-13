@@ -92,9 +92,7 @@ public class VisualElementDAO {
 				updateVisualElement(ve);
 				break;
 			case DELETE:
-				boolean deleted = deleteVisualElement(ve.getEltID());
-				if(!deleted)
-					throw new Exception("Failed to delete element: ");
+				deleteVisualElement(ve.getEltID());
 				break;
 			default:
 				break;
@@ -145,7 +143,7 @@ public class VisualElementDAO {
 			ps.setString(1, eltID);
 			int numAffected = ps.executeUpdate();
 			ps.close();
-
+			
 			return (numAffected == 1);
 
 		} catch (Exception e) {
