@@ -42,11 +42,10 @@ function EditCard() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 let card = JSON.parse(xhr.responseText).card
                 setCard(card)
-                console.log(card)
                 setPositionChanges({
-                    'frontPage': card.frontPage.listVisualElements,
-                    'leftPage': card.leftPage.listVisualElements,
-                    'rightPage': card.rightPage.listVisualElements,
+                    'frontPage': card.frontPage.listVisualElements.map(e => {return({eltID: e.eltID, x: e.xPosition, y: e.yPosition})}),
+                    'leftPage': card.leftPage.listVisualElements.map(e => {return({eltID: e.eltID, x: e.xPosition, y: e.yPosition})}),
+                    'rightPage': card.rightPage.listVisualElements.map(e => {return({eltID: e.eltID, x: e.xPosition, y: e.yPosition})}),
                 })
             } else {
                 console.log('error')  
@@ -152,7 +151,8 @@ function EditCard() {
         // Use the position changes to update the new positions before sending to database
 
         let c = card;
-        console.log(card)
+
+        console.log(positionChanges)
 
         const updatePositions = (page) => {
             let arr = []
@@ -172,20 +172,33 @@ function EditCard() {
         c.leftPage.listVisualElements = updatePositions('leftPage');
         c.rightPage.listVisualElements = updatePositions('rightPage');
 
+        console.log(card)
     }
 
     const addElement = (eltInfo, page) => {
 
         let c = card;
+        let pc = positionChanges;
+        let p = ''
         if (page === 'Front Page') {
             c.frontPage.listVisualElements.push(eltInfo)
+            p = 'frontPage'
         } else if (page === 'Left Page') {
             c.leftPage.listVisualElements.push(eltInfo)
+            p = 'leftPage'
         } else {
             c.rightPage.listVisualElements.push(eltInfo)
+            p = 'rightPage'
         }
 
+        pc[p].push({
+            eltID: eltInfo.eltID,
+            x: 0,
+            y: 0
+        })
+
         setCard(c)
+        setPositionChanges(pc)
         setShowAddElement(false)
     }
 
@@ -218,6 +231,7 @@ function EditCard() {
     } 
     const deleteElt = (eltID) => {
         let c = card;
+        console.log(eltID)
         c['frontPage'].listVisualElements.forEach(e => {
             if(e.eltID === eltID){ 
                 e.updated = 2;

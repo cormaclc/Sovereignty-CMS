@@ -58,7 +58,7 @@ function EditElement(props) {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant='danger' onClick={() => {props.deleteElt(props.elt.uuid)}}>Delete Element</Button>
+                    <Button variant='danger' onClick={() => {props.deleteElt(props.elt.eltID)}}>Delete Element</Button>
                     <Button variant='success' onClick={update}>Update Element</Button>
                 </Modal.Footer>
             </Modal>

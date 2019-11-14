@@ -31,7 +31,7 @@ function AddElement(props) {
         }
 
         let eltInfo = {
-            'uuid': uuidv1().substring(0, 19),
+            'eltID': uuidv1().substring(0, 19),
             'updated': 1,
             'eltType': eltType,
             'xPosition': 0,
