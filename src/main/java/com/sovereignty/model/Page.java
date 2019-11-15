@@ -26,6 +26,9 @@ public class Page {
 		this.listVisualElements = new ArrayList<VisualElement>();
 	}
 
+	public boolean addElement(VisualElement e) {
+		return this.listVisualElements.add(e);
+	}
 
 	public String getPageID() {
 		return pageID;

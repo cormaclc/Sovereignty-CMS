@@ -6,7 +6,11 @@ public class Card {
 	String recipient;
 	String eventType;
 	String orientation;
-	Page frontPage, leftPage, rightPage, backPage;
+	
+	Page frontPage;
+	Page leftPage;
+	Page rightPage;
+	Page backPage;
 	
 	public Card()  {}
 	
@@ -94,7 +98,4 @@ public class Card {
 		this.backPage = backPage;
 	}
 
-	
-	
-	
 }
