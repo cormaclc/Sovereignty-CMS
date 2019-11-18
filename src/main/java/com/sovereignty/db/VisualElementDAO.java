@@ -69,17 +69,21 @@ public class VisualElementDAO {
 	private VisualElement generateVisualElement(ResultSet res) throws SQLException {
 		VisualElement ve = new VisualElement();
 		if (res.getString("eltType").toLowerCase().equals("text")) {
+			ve.setImageURL("");
 			ve.setText(res.getString("text"));
 			ve.setFont(res.getString("font"));
 		} else if (res.getString("eltType").toLowerCase().equals("image")) {
-			ve.setHeight(res.getInt("height"));
-			ve.setWidth(res.getInt("width"));
 			ve.setImageURL(res.getString("imageURL"));
+			ve.setText("");
+			ve.setFont("");
 		}
+
 		ve.setEltID(res.getString("eltID"));
 		ve.setEltType(res.getString("eltType"));
 		ve.setxPosition(res.getInt("xPosition"));
 		ve.setyPosition(res.getInt("yPosition"));
+		ve.setHeight(res.getInt("height"));
+		ve.setWidth(res.getInt("width"));
 		ve.setPageID(res.getString("pageID"));
 
 		return ve;
