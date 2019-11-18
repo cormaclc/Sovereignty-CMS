@@ -43,9 +43,9 @@ function EditCard() {
                 let card = JSON.parse(xhr.responseText).card
                 setCard(card)
                 setPositionChanges({
-                    'frontPage': card.frontPage.listVisualElements.map(e => {return({eltID: e.eltID, x: e.xPosition, y: e.yPosition})}),
-                    'leftPage': card.leftPage.listVisualElements.map(e => {return({eltID: e.eltID, x: e.xPosition, y: e.yPosition})}),
-                    'rightPage': card.rightPage.listVisualElements.map(e => {return({eltID: e.eltID, x: e.xPosition, y: e.yPosition})}),
+                    'frontPage': card.frontPage.listVisualElements.map(e => {return({eltID: e.eltID, x: 0, y: 0})}),
+                    'leftPage': card.leftPage.listVisualElements.map(e => {return({eltID: e.eltID, x: 0, y: 0})}),
+                    'rightPage': card.rightPage.listVisualElements.map(e => {return({eltID: e.eltID, x: 0, y: 0})}),
                 })
             } else {
                 console.log('error')  
@@ -75,7 +75,8 @@ function EditCard() {
         c.frontPage.listVisualElements = updatePositions('frontPage');
         c.leftPage.listVisualElements = updatePositions('leftPage');
         c.rightPage.listVisualElements = updatePositions('rightPage');
-        console.log(card)
+
+        setCard(c)
 
         let jsonCard = JSON.stringify(card)
 
@@ -89,6 +90,7 @@ function EditCard() {
         xhr.onloadend = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 console.log(xhr.responseText);
+                window.location.reload();
             } else {
                 console.log('error');
             }
@@ -178,6 +180,7 @@ function EditCard() {
             if(el.eltID === elID) {
                 el.x = newCoords.x
                 el.y = newCoords.y
+                console.log(newCoords)
             }
         });
 

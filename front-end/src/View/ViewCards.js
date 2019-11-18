@@ -28,7 +28,7 @@ function ViewCards() {
                 console.log('error')  
             }
         };
-    }, []);
+    }, [cards]);
 
     return (
         <div className='container'>

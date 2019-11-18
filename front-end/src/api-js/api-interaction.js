@@ -18,7 +18,6 @@ const createCard = (initCard) => {
     initCard.cardID = uuidv1().substring(0, 19)
 
     let jsonCard = JSON.stringify(initCard)
-    console.log(jsonCard)
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", baseUrl+'/createCard', true);
@@ -28,8 +27,6 @@ const createCard = (initCard) => {
   
     // This will process results and update HTML as appropriate. 
     xhr.onloadend = function () {
-      console.log(xhr);
-      console.log(xhr.request);
       if (xhr.readyState === XMLHttpRequest.DONE) {
         console.log(xhr.responseText);
       } else {
@@ -51,7 +48,6 @@ const getCards = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             console.log (xhr.responseText);
             allCards = JSON.parse(xhr.responseText).cards
-            console.log(allCards)
             return allCards;
         } else {
             console.log('error')
@@ -63,7 +59,6 @@ const getCards = () => {
 }
 
 const deleteCard = (cardID) => {
-    console.log(cardID)
     var xhr = new XMLHttpRequest();
     xhr.open("POST", baseUrl+`/deleteCard/${cardID}`, true);
 
@@ -72,8 +67,6 @@ const deleteCard = (cardID) => {
 
     // This will process results and update HTML as appropriate. 
     xhr.onloadend = function () {
-        console.log(xhr);
-        console.log(xhr.request);
         if (xhr.readyState === XMLHttpRequest.DONE) {
             console.log ("XHR:" + xhr.responseText);
         } else {
