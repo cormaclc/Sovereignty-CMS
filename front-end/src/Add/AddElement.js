@@ -3,7 +3,7 @@ import {Modal, Form, Button} from 'react-bootstrap'
 import uuidv1 from 'uuid/v1'
 
 function AddElement(props) {
-    const [eltType, setEltType] = React.useState('text')
+    const [eltType, setEltType] = React.useState('Text')
     const [height, setHeight] = React.useState(0)
     const [width, setWidth] = React.useState(0)
     const [text, setText] = React.useState('')
@@ -99,7 +99,7 @@ function AddElement(props) {
 
 function ElementConditional(props) {
 
-    if(props.eltType === 'Text') {
+    if(props.eltType.toLowerCase() === 'text') {
         return (
             <div>
                 <Form.Group controlId="form-text">
