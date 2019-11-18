@@ -3,7 +3,7 @@ import {Modal, Form, Button} from 'react-bootstrap'
 import uuidv1 from 'uuid/v1'
 
 function AddElement(props) {
-    const [eltType, setEltType] = React.useState('Text')
+    const [eltType, setEltType] = React.useState('text')
     const [height, setHeight] = React.useState(0)
     const [width, setWidth] = React.useState(0)
     const [text, setText] = React.useState('')
@@ -33,7 +33,7 @@ function AddElement(props) {
         let eltInfo = {
             'eltID': uuidv1().substring(0, 19),
             'updated': 1,
-            'eltType': eltType,
+            'eltType': eltType.toLowerCase(),
             'xPosition': 0,
             'yPosition': 0,
             'height': height,
@@ -41,7 +41,7 @@ function AddElement(props) {
             'text': text,
             'font': font,
             'imageUrl': imageUrl,
-            'pageId': pageID,
+            'pageID': pageID,
         }
 
         props.addElement(eltInfo, page)

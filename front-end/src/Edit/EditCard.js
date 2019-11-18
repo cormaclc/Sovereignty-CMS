@@ -148,11 +148,7 @@ function EditCard() {
 
     const saveCard = () => {
 
-        // Use the position changes to update the new positions before sending to database
-
         let c = card;
-
-        console.log(positionChanges)
 
         const updatePositions = (page) => {
             let arr = []
@@ -171,8 +167,24 @@ function EditCard() {
         c.frontPage.listVisualElements = updatePositions('frontPage');
         c.leftPage.listVisualElements = updatePositions('leftPage');
         c.rightPage.listVisualElements = updatePositions('rightPage');
-
         console.log(card)
+
+        let jsonCard = JSON.stringify(card)
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', baseUrl+'/updateCard', true);
+    
+        // send the collected data as JSON
+        xhr.send(jsonCard);
+    
+        // This will process results and update HTML as appropriate. 
+        xhr.onloadend = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                console.log(xhr.responseText);
+            } else {
+                console.log('error');
+            }
+        };
     }
 
     const addElement = (eltInfo, page) => {

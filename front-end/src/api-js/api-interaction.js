@@ -15,12 +15,6 @@ let allCards = []
 
 const createCard = (initCard) => {
 
-    // let frontPage = new Page([], true)
-    // let leftPage = new Page([], true)
-    // let rightPage = new Page([], true)
-    // let backPage = new Page([], false)
-    // let card = new Card(initCard.eventType, initCard.recipient, initCard.orientation, frontPage, leftPage, rightPage, backPage)
-
     initCard.cardID = uuidv1().substring(0, 19)
 
     let jsonCard = JSON.stringify(initCard)
@@ -43,11 +37,6 @@ const createCard = (initCard) => {
       }
     };
 
-    // //test code:
-    // let tCards = JSON.parse(testCards);
-    // tCards.push(card)
-    // testCards = JSON.stringify(tCards)
-    // console.log(tCards)
 }
 
 const getCards = () => {

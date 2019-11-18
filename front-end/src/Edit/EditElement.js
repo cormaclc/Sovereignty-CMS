@@ -68,7 +68,7 @@ function EditElement(props) {
 
 function DependentInput(props) {
 
-    if(props.type === 'Text') {
+    if(props.type === 'text') {
         return (
             <div>
                 <Form.Group controlId="form-text">
