@@ -49,6 +49,7 @@ function ViewCards() {
                             <Link to={`editCard/${c.cardID}`}>
                                 <Button variant='outline-warning' className='mr-2'>Edit</Button>
                             </Link>
+                            <Button variant='outline-success' className='mr-2' onClick={() => {alert(`${window.location.host}/viewCard/${c.cardID}`)}}>Link</Button>
                             <Button variant='outline-danger' onClick={() => {if(window.confirm(`Are you sure you want to delete the ${c.eventType} card for ${c.recipient}?`)){handleDelete(c.cardID)}}}>Delete</Button>
                         </div>
                     </div>
