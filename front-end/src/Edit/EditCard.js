@@ -90,7 +90,12 @@ function EditCard() {
         xhr.onloadend = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 console.log(xhr.responseText);
-                window.location.reload();
+                setPositionChanges({
+                    'frontPage': card.frontPage.listVisualElements.map(e => {return({eltID: e.eltID, x: 0, y: 0})}),
+                    'leftPage': card.leftPage.listVisualElements.map(e => {return({eltID: e.eltID, x: 0, y: 0})}),
+                    'rightPage': card.rightPage.listVisualElements.map(e => {return({eltID: e.eltID, x: 0, y: 0})}),
+                })
+                alert('Card Saved')
             } else {
                 console.log('error');
             }
@@ -153,7 +158,6 @@ function EditCard() {
     } 
     const deleteElt = (eltID) => {
         let c = card;
-        console.log(eltID)
         c['frontPage'].listVisualElements.forEach(e => {
             if(e.eltID === eltID){ 
                 e.updated = 2;
@@ -177,14 +181,16 @@ function EditCard() {
 
         let pc = positionChanges;
         pc[pageName].forEach(el => {
+            console.log(elID)
             if(el.eltID === elID) {
-                el.x = newCoords.x
-                el.y = newCoords.y
-                console.log(newCoords)
+                el.x = el.x + newCoords.x
+                el.y = el.y + newCoords.y
+                console.log()
             }
         });
 
         setPositionChanges(pc)
+        newCoords = {}
 
     }
 

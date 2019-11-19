@@ -49,6 +49,7 @@ function EditPage(props) {
     const handleStop = (elID) => {
         props.updatePosition(elID, changedEl, props.pageName)
         props.handleElementSelect(elID, props.pageName)
+        setChangedEl({x: 0, y: 0})
     }
 
     return (
