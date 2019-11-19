@@ -44,7 +44,9 @@ function AddElement(props) {
             'pageID': pageID,
         }
 
+        setPage('Front Page')
         props.addElement(eltInfo, page)
+        
     }
 
     return (

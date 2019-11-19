@@ -7,13 +7,31 @@ public class Card {
 	String eventType;
 	String orientation;
 	
+	Page frontPage;
+	Page leftPage;
+	Page rightPage;
+	Page backPage;
+	
 	public Card()  {}
+	
+	public Card(String cardID, String recipientName, String eventType, String orientation,
+			Page front, Page left, Page right, Page back) {
+		this.cardID = cardID;
+		this.recipient = recipientName;
+		this.eventType = eventType;
+		this.orientation = orientation;
+		this.frontPage = front;
+		this.leftPage = left; 
+		this.rightPage = right;
+		this.backPage = back;
+	}
 	
 	public Card(String cardID, String recipientName, String eventType, String orientation) {
 		this.cardID = cardID;
 		this.recipient = recipientName;
 		this.eventType = eventType;
 		this.orientation = orientation;
+
 	}
 
 	public String getCardID() {
@@ -47,4 +65,40 @@ public class Card {
 	public void setOrientation(String orientation) {
 		this.orientation = orientation;
 	}
+
+	public Page getFrontPage() {
+		return frontPage;
+	}
+
+	public void setFrontPage(Page frontPage) {
+		this.frontPage = frontPage;
+	}
+
+	public Page getLeftPage() {
+		return leftPage;
+	}
+
+	public void setLeftPage(Page leftPage) {
+		this.leftPage = leftPage;
+	}
+
+	public Page getRightPage() {
+		return rightPage;
+	}
+
+	public void setRightPage(Page rightPage) {
+		this.rightPage = rightPage;
+	}
+
+	public Page getBackPage() {
+		return backPage;
+	}
+
+	public void setBackPage(Page backPage) {
+		this.backPage = backPage;
+	}
+
+	
+	
+	
 }
