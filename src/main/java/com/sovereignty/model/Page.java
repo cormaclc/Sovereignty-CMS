@@ -8,6 +8,8 @@ public class Page {
 	int isModifiable;
 	List<VisualElement> listVisualElements; 
 	
+	public Page() {}
+	
 	public Page(String pageID, int isModifiable, List<VisualElement> listVE) {
 		this.pageID = pageID;
 		this.isModifiable = isModifiable;

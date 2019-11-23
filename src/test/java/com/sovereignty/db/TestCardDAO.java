@@ -1,6 +1,7 @@
 package com.sovereignty.db;
 
 
+import java.util.List;
 import java.util.UUID;
 
 import com.sovereignty.model.Card;
@@ -147,8 +148,43 @@ public class TestCardDAO extends TestCase {
 	    	assertEquals(c3.getBackPage().getPageID(), card.getBackPage().getPageID());
 	    	assertEquals(c3.getBackPage().getIsModifiable(), card.getBackPage().getIsModifiable());
 	    	
+	    	
+	    	// Update Existing Element
+	    	List<VisualElement> frontPageElts = c3.getFrontPage().getListVisualElements();
+	    	for(VisualElement ve: frontPageElts) {
+	    		ve.setText("updated test text");
+	    		ve.setFont("updated font");
+	    		ve.setUpdated(VisualElementDAO.CHANGED);
+	    		ve.setWidth(5);
+	    		ve.setHeight(5);
+	    		ve.setxPosition(5);
+	    		ve.setyPosition(5);
+	    		ve.setImageURL("test URL");
+	    	}
+	    	
+	    	Card c4 = cd.updateCard(c3);
+	    	
+	    	// Verify Changes
+	    	Card updateTest = cd.getCardByID(c4.getCardID());
+	    	assertEquals(updateTest.getCardID(), "test_id");
+	    	assertEquals(updateTest.getEventType(), "updated event");
+	    	assertEquals(updateTest.getRecipient(), "updated recipient");
+	    	assertEquals(updateTest.getOrientation(), "updated orientation");
+	    	
+	    	assertEquals(updateTest.getFrontPage().getPageID(), card.getFrontPage().getPageID());
+	    	assertEquals(updateTest.getFrontPage().getIsModifiable(), card.getFrontPage().getIsModifiable());
+	    	assertEquals(updateTest.getFrontPage().getListVisualElements().size(), 1);
+	    	VisualElement uve = updateTest.getFrontPage().getListVisualElements().get(0);
+	    	assertEquals(uve.getEltID(), "testUpdateElt");
+	    	assertEquals(uve.getText(), "updated test text");
+	    	assertEquals(uve.getFont(), "updated font");
+	    	assertEquals(uve.getHeight(), 5);
+	    	assertEquals(uve.getWidth(), 5);
+	    	assertEquals(uve.getxPosition(), 5);
+	    	assertEquals(uve.getyPosition(), 5);
+	    	assertEquals(uve.getImageURL(), "");	    	
 	    	// can delete it
-	    	assertTrue (cd.deleteCard(c2.getCardID()));
+	    	assertTrue (cd.deleteCard(c4.getCardID()));
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    	fail ("didn't work:" + e.getMessage());
