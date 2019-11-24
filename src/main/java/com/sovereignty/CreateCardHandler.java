@@ -66,7 +66,7 @@ public class CreateCardHandler implements RequestHandler<CreateCardRequest, Crea
 			
 			return new CreateCardResponse(200, "successfully added new card", card);
         } catch (Exception e) {
-        	return new CreateCardResponse(500, "Encountered and Error while adding card");
+        	return new CreateCardResponse(500, 	"Encountered and Error while adding card");
 		}
     }
 

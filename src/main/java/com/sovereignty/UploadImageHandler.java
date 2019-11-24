@@ -18,13 +18,12 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.S3Object;
 import com.sovereignty.http.UploadImageRequest;
+import com.sovereignty.http.UploadImageResponse;
 
 //public class UploadImageHandler implements RequestHandler<S3Event, String> {
-public class UploadImageHandler implements RequestHandler<UploadImageRequest, String> {
+public class UploadImageHandler implements RequestHandler<UploadImageRequest, UploadImageResponse> {
 	private static final float MAX_WIDTH = 100;
     private static final float MAX_HEIGHT = 100;
     private final String JPG_TYPE = (String) "jpg";
@@ -34,16 +33,14 @@ public class UploadImageHandler implements RequestHandler<UploadImageRequest, St
     
     private AmazonS3 s3 = AmazonS3ClientBuilder.standard().build();
     
-    public UploadImageHandler() {
-    	
-    }
+    public UploadImageHandler() {}
 
     UploadImageHandler(AmazonS3 s3) {
         this.s3 = s3;
     }
 
     @Override
-    public String handleRequest(UploadImageRequest event, Context context) {
+    public UploadImageResponse handleRequest(UploadImageRequest event, Context context) {
         context.getLogger().log("Received event: " + event);
 
 // Get the object from the event and show its content type
@@ -56,14 +53,11 @@ public class UploadImageHandler implements RequestHandler<UploadImageRequest, St
      // Infer the image type.
         Matcher matcher = Pattern.compile(".*\\.([^\\.]*)").matcher(event.getImageName());
         if (!matcher.matches()) {
-            System.out.println("Unable to infer image type for key "
-                    + key);
-            return "";
+            System.out.println("Unable to infer image type for key "+ key);
         }
         String imageType = matcher.group(1);
         if (!(JPG_TYPE.equals(imageType)) && !(PNG_TYPE.equals(imageType))) {
             System.out.println("Skipping non-image " + key);
-            return "";
         }
         
         // base64 to imageFile
@@ -79,46 +73,41 @@ public class UploadImageHandler implements RequestHandler<UploadImageRequest, St
             ObjectMetadata meta = new ObjectMetadata();
 
             // Set Content-Length and Content-Type
-//            meta.setContentLength(os.size());
-//            if (JPG_TYPE.equals(imageType)) {
-//                meta.setContentType(JPG_MIME);
-//            }
-//            if (PNG_TYPE.equals(imageType)) {
-//                meta.setContentType(PNG_MIME);
-//            }
+            meta.setContentLength(os.size());
+            if (JPG_TYPE.equals(imageType)) { meta.setContentType(JPG_MIME); }
+            if (PNG_TYPE.equals(imageType)) { meta.setContentType(PNG_MIME); }
             
         	ImageIO.write(srcImage, imageType, os);
         	
         	// write the file to s3
         	try {
                 s3.putObject(bucket, key, is, meta);
+                return new UploadImageResponse(200, "image uploaded");
             }
-            catch(AmazonServiceException e)
-        	{
+            catch(AmazonServiceException e) {
                 System.err.println(e.getErrorMessage());
                 System.exit(1);
+    			return new UploadImageResponse(500, "Can't upload image. AmazonServiceException Error: "+ e.getMessage());
             }
 		} catch (IOException e1) {
 			e1.printStackTrace();
+			return new UploadImageResponse(500, "failed uploading image. IOException Error: "+ e1.getMessage());
 		}
         
-        
-        
-//        s3.putObject(bucket, key, imageFile);
-        try {        	
-        	
-            S3Object response = s3.getObject(new GetObjectRequest(bucket, key));
-            String contentType = response.getObjectMetadata().getContentType();
-            context.getLogger().log("CONTENT TYPE: " + contentType);
-             
-            return contentType;
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            context.getLogger().log(String.format(
-                "Error getting object %s from bucket %s. Make sure they exist and"
-                + " your bucket is in the same region as this function.", key, bucket));
-            throw e;
-        }
+//	getting response from s3               
+//        try {        	
+//            S3Object response = s3.getObject(new GetObjectRequest(bucket, key));
+//            String contentType = response.getObjectMetadata().getContentType();
+//            context.getLogger().log("CONTENT TYPE: " + contentType);
+//             
+//            return contentType;
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            context.getLogger().log(String.format(
+//                "Error getting object %s from bucket %s. Make sure they exist and"
+//                + " your bucket is in the same region as this function.", key, bucket));
+//            throw e;
+//        }
     }
 }
