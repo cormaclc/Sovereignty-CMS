@@ -91,7 +91,7 @@ public class CardDAO {
         String recipient  = res.getString("recipient");
         String eventType = res.getString("eventType");
         String orientation = res.getString("orientation");
-     
+
         return new Card (cardID, recipient, eventType, orientation);
     }
     
@@ -103,8 +103,7 @@ public class CardDAO {
         String frontPageID = res.getString("frontPage");
         String leftPageID = res.getString("leftPage");
         String rightPageID = res.getString("rightPage");
-        String backPageID = res.getString("backPage");
-                
+        String backPageID = res.getString("backPage");     
         Card genCard = new Card (cardID, recipient, eventType, orientation);
         genCard.setFrontPage(pageDAO.getPageByID(frontPageID));
         genCard.setLeftPage(pageDAO.getPageByID(leftPageID));

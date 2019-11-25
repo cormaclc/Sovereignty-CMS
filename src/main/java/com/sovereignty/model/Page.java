@@ -27,7 +27,7 @@ public class Page {
 		this.isModifiable = 1;
 		this.listVisualElements = new ArrayList<VisualElement>();
 	}
-	
+
 	public boolean addElement(VisualElement e) {
 		return this.listVisualElements.add(e);
 	}
