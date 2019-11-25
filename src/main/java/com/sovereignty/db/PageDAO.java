@@ -87,12 +87,12 @@ public class PageDAO {
     public boolean updatePage(Page page) throws Exception{
     	try {
     		VisualElementDAO vd = new VisualElementDAO();
+    		
     		for(VisualElement ve : page.getListVisualElements()) {
     			vd.update(ve);
     		}
     		
     		return (true);
-    		
     	}catch (Exception e) {
 			throw new Exception("Failed to update Page: "+e.getMessage());
 		}
@@ -104,10 +104,9 @@ public class PageDAO {
 
     		// Delete all the elements associated with the Page
     		VisualElementDAO vd = new VisualElementDAO();
-    		boolean elementsDeleted = true;
     		for(VisualElement ve : p.getListVisualElements()) {
     			ve.setUpdated(VisualElementDAO.DELETE);
-    			if (vd.update(ve) == null) elementsDeleted = false;
+    			vd.update(ve);
     		}
     		
     		// Delete the Actual Page second
