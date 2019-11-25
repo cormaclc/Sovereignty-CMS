@@ -37,6 +37,17 @@ public class TestImageDAO extends TestCase {
 			fail("didn't work:" + e.getMessage());
 		}
 	}
+	
+	public void testGetAllImages() {
+		ImageDAO id = new ImageDAO();
+		try {
+			List<Image> images = id.getAllImages();
+			assertEquals(images.size(), 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("didn't work:" + e.getMessage());
+		}
+	}
 
 	public void testCreate() {
 		ImageDAO id = new ImageDAO();

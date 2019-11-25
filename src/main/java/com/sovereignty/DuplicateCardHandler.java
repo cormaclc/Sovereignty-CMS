@@ -21,7 +21,7 @@ public class DuplicateCardHandler implements RequestHandler<DuplicateCardRequest
 	// Includes new IDs for each page and visual element
 	private Card mapDuplicateCardRequestToCard(DuplicateCardRequest input)  {
 		Card card = new  Card();
-		card.setCardID(input.getCardID());
+		card.setCardID(UUID.randomUUID().toString());
 		card.setRecipient(input.getRecipient());
 		card.setEventType(input.getEventType());
 		card.setOrientation(input.getOrientation());
