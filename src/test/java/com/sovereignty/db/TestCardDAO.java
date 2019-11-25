@@ -16,11 +16,11 @@ public class TestCardDAO extends TestCase {
 	public void testFind() {
 	    CardDAO cd = new CardDAO();
 	    try {
-	    	Card c = cd.getCardByRecipientAndEventType("Andrew", "ANNIVERSARY");
+	    	Card c = cd.getCardByRecipientAndEventType("Andrew", "Anniversary");
 	    	assertEquals(c.getCardID(), "test_card");
-	    	assertEquals(c.getEventType(), "ANNIVERSARY");
+	    	assertEquals(c.getEventType(), "Anniversary");
 	    	assertEquals(c.getRecipient(), "Andrew");
-	    	assertEquals(c.getOrientation(), "PORTRAIT");
+	    	assertEquals(c.getOrientation(), "Portrait");
 	    	assertEquals(c.getFrontPage().getPageID(), "default_back");
 	    	assertEquals(c.getFrontPage().getIsModifiable(), 0);
 	    	assertEquals(c.getLeftPage().getPageID(), "default_back");
@@ -185,6 +185,74 @@ public class TestCardDAO extends TestCase {
 	    	assertEquals(uve.getImageURL(), "");	    	
 	    	// can delete it
 	    	assertTrue (cd.deleteCard(c4.getCardID()));
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	fail ("didn't work:" + e.getMessage());
+	    }
+	}
+	
+	
+	
+	public void testSave() {
+	    CardDAO cd = new CardDAO();
+	    PageDAO pd = new PageDAO();
+	    try {
+	    	// can add it
+	    	Card card = new Card("test_id", "Test Recipient", "BACK_TO_SCHOOL","PORTRAIT");
+	    	card.setFrontPage(new Page("testFrontPage"));
+			card.setLeftPage(new Page("testLeftPage"));
+			card.setRightPage(new Page("testRightPage"));
+			card.setBackPage(new Page("default_back", 0));
+			
+			VisualElement ve1 = new VisualElement("testUpdateElt", "text", 0, 0, 0, 0, "testText", "font",
+	    			"", card.getFrontPage().getPageID(), VisualElementDAO.CHANGED);
+	    	VisualElement ve2 = new VisualElement("testUpdateElt2", "text", 0, 0, 0, 0, "testText", "font",
+	    			"", card.getLeftPage().getPageID(), VisualElementDAO.CHANGED);
+	    	VisualElement ve3 = new VisualElement("testUpdateElt3", "text", 0, 0, 0, 0, "testText", "font",
+	    			"", card.getRightPage().getPageID(), VisualElementDAO.CHANGED);
+	    	card.getFrontPage().addElement(ve1);
+	    	card.getLeftPage().addElement(ve2);
+	    	card.getRightPage().addElement(ve3);
+	    	
+	    	
+	    	boolean b = cd.saveCard(card);
+	    	
+	    	assertTrue(b);
+	    	
+	    	// can retrieve it
+	    	Card c2 = cd.getCardByID(card.getCardID());
+	    	
+	    	assertEquals(c2.getCardID(), "test_id");
+	    	assertEquals(c2.getEventType(), "BACK_TO_SCHOOL");
+	    	assertEquals(c2.getRecipient(), "Test Recipient");
+	    	assertEquals(c2.getOrientation(), "PORTRAIT");
+	    	
+	    	assertEquals(c2.getFrontPage().getPageID(), card.getFrontPage().getPageID());
+	    	assertEquals(c2.getFrontPage().getIsModifiable(), card.getFrontPage().getIsModifiable());
+	    	assertEquals(c2.getFrontPage().getListVisualElements().size(), 1);
+	    	VisualElement uve1 = c2.getFrontPage().getListVisualElements().get(0);
+	    	assertEquals(uve1.getEltID(), "testUpdateElt");
+
+	    	
+	    	assertEquals(c2.getLeftPage().getPageID(), card.getLeftPage().getPageID());
+	    	assertEquals(c2.getLeftPage().getIsModifiable(), card.getLeftPage().getIsModifiable());
+	    	assertEquals(c2.getLeftPage().getListVisualElements().size(), 1);
+	    	VisualElement uve2 = c2.getLeftPage().getListVisualElements().get(0);
+	    	assertEquals(uve2.getEltID(), "testUpdateElt2");
+	    	
+	    	assertEquals(c2.getRightPage().getPageID(), card.getRightPage().getPageID());
+	    	assertEquals(c2.getRightPage().getIsModifiable(), card.getRightPage().getIsModifiable());
+	    	assertEquals(c2.getRightPage().getListVisualElements().size(), 1);
+	    	VisualElement uve3 = c2.getRightPage().getListVisualElements().get(0);
+	    	assertEquals(uve3.getEltID(), "testUpdateElt3");
+	    	
+	    	assertEquals(c2.getBackPage().getPageID(), card.getBackPage().getPageID());
+	    	assertEquals(c2.getBackPage().getIsModifiable(), card.getBackPage().getIsModifiable());
+	    	
+	    	
+	     	
+	    	// can delete it
+	    	assertTrue (cd.deleteCard(c2.getCardID()));
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    	fail ("didn't work:" + e.getMessage());

@@ -76,6 +76,24 @@ public class PageDAO {
 		
 	}
 	
+	public boolean savePage(Page page) throws Exception {
+		try {
+			boolean addedPage = addPage(page);
+			
+			for(VisualElement ve : page.getListVisualElements()) {
+				ve.setUpdated(VisualElementDAO.CHANGED);
+			}
+			
+			boolean updatedPage =  updatePage(page);
+			
+            return addedPage && updatedPage;
+        } catch (Exception e) {
+        	e.printStackTrace();
+            throw new Exception("Failed to insert page: " + e.getMessage());
+        }
+		
+	}
+	
     private Page generatePage(ResultSet res) throws Exception {
     	String pageID = res.getString("pageID");
         int isModifiable  = res.getInt("isModifiable");
@@ -117,7 +135,7 @@ public class PageDAO {
     		int numAffected = ps.executeUpdate();
     		ps.close();
     		
-    		return (numAffected == 1) && elementsDeleted;
+    		return (numAffected == 1);
     		
     	}catch (Exception e) {
 			throw new Exception("Failed to delete Page: "+e.getMessage());

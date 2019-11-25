@@ -82,7 +82,7 @@ public class DuplicateCardHandler implements RequestHandler<DuplicateCardRequest
 			
 			card = this.mapDuplicateCardRequestToCard(input);
 		
-			boolean cardAdded = cardDao.addCard(card);
+			boolean cardAdded = cardDao.saveCard(card);
 			
 			if (! cardAdded) {
 				return new DuplicateCardResponse(500, "failed adding card");
