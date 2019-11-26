@@ -19,39 +19,28 @@ public class DuplicateCardHandler implements RequestHandler<DuplicateCardRequest
 	PageDAO pageDao = new PageDAO();
 	
 	// Includes new IDs for each page and visual element
-	private Card mapDuplicateCardRequestToCard(DuplicateCardRequest input)  {
-		Card card = new  Card();
-		card.setCardID(UUID.randomUUID().toString());
-		card.setRecipient(input.getRecipient());
-		card.setEventType(input.getEventType());
-		card.setOrientation(input.getOrientation());
+	private Card mapDuplicateCardRequestToCard(Card input)  {
+		input.setCardID(UUID.randomUUID().toString());
 		
-		Page frontPage = input.getFrontPage();
-		frontPage.setPageID(UUID.randomUUID().toString());
-		Iterator<VisualElement> frontPageIterator = frontPage.getListVisualElements().iterator();
+		input.getFrontPage().setPageID(UUID.randomUUID().toString());
+		Iterator<VisualElement> frontPageIterator = input.getFrontPage().getListVisualElements().iterator();
 		while (frontPageIterator.hasNext()) {
 			frontPageIterator.next().setEltID(UUID.randomUUID().toString());
 		}
-		card.setFrontPage(frontPage);
 		
-		Page leftPage = input.getLeftPage();
-		leftPage.setPageID(UUID.randomUUID().toString());
-		Iterator<VisualElement> leftPageIterator = leftPage.getListVisualElements().iterator();
+		input.getLeftPage().setPageID(UUID.randomUUID().toString());
+		Iterator<VisualElement> leftPageIterator = input.getLeftPage().getListVisualElements().iterator();
 		while (leftPageIterator.hasNext()) {
 			leftPageIterator.next().setEltID(UUID.randomUUID().toString());
 		}
-		card.setLeftPage(leftPage);
 		
-		Page rightPage = input.getRightPage();
-		rightPage.setPageID(UUID.randomUUID().toString());
-		Iterator<VisualElement> rightPageIterator = rightPage.getListVisualElements().iterator();
+		input.getRightPage().setPageID(UUID.randomUUID().toString());
+		Iterator<VisualElement> rightPageIterator = input.getRightPage().getListVisualElements().iterator();
 		while (rightPageIterator.hasNext()) {
 			rightPageIterator.next().setEltID(UUID.randomUUID().toString());
 		}
-		card.setRightPage(rightPage);
 		
-		card.setBackPage(input.getBackPage());
-		return card;
+		return input;
 	}
 	
 	private String validateDuplicateCardRequest(DuplicateCardRequest input) {
@@ -75,12 +64,15 @@ public class DuplicateCardHandler implements RequestHandler<DuplicateCardRequest
         	if (validationError != null)  {
         		return new DuplicateCardResponse(400, validationError);
         	}
-	        Card card = cardDao.getCardByRecipientAndEventType(input.getRecipient(), input.getEventType());
+	        Card card = cardDao.getCardByID(input.getCardID());
 			if (card != null) {
 				return new DuplicateCardResponse(409, "conflict, card already exists");
 			}
 			
-			card = this.mapDuplicateCardRequestToCard(input);
+			card = this.mapDuplicateCardRequestToCard(card);
+			// Reset the recipient and event
+			card.setRecipient(input.getRecipient());
+			card.setEventType(input.getEventType());
 		
 			boolean cardAdded = cardDao.saveCard(card);
 			
