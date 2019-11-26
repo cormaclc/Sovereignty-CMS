@@ -1,6 +1,7 @@
 import React from 'react'
 import {Modal, Form, Button} from 'react-bootstrap'
 import uuidv1 from 'uuid/v1'
+import {fileToBase64} from '../api-js/api-interaction'
 
 function AddElement(props) {
     const [eltType, setEltType] = React.useState('Text')
@@ -8,6 +9,7 @@ function AddElement(props) {
     const [width, setWidth] = React.useState(0)
     const [text, setText] = React.useState('')
     const [font, setFont] = React.useState('Times New Roman')
+    const [image, setImage] = React.useState('')
     const [imageUrl, setImageUrl] = React.useState('')
     const [page, setPage] = React.useState('Front Page')
 
@@ -16,11 +18,18 @@ function AddElement(props) {
     const handleWidthChange = (e) => { setWidth(e.target.value) }
     const handleTextChange = (e) => { setText(e.target.value) }
     const handleFontChange = (e) => { setFont(e.target.value) }
+    const handleImageChange = (e) => { setImage(e.target.files[0]); setImageUrl('') }
     const handleImageUrlChange = (e) => { setImageUrl(e.target.value) }
+
     const handlePageChange = (e) => { setPage(e.target.value) }
 
     const add = () => {
         
+        if(eltType === 'Image' && image === '' && imageUrl === '') {
+            alert('Invalid image, try again.')
+            return;
+        }
+
         let pageID = ''
         if (page === 'Front Page') {
             pageID = props.card.frontPage.pageID
@@ -29,6 +38,21 @@ function AddElement(props) {
         } else {
             pageID = props.card.rightPage.pageID
         }
+
+
+        
+        let imgUrl = ''
+        if(imageUrl === '') {
+            fileToBase64(image).then(res => {
+                console.log(res)
+            })
+
+            // TODO: post image to s3, get url back
+            imgUrl = 's3 url!!'
+        } else {
+            imgUrl = imageUrl
+        }
+        
 
         let eltInfo = {
             'eltID': uuidv1().substring(0, 19),
@@ -40,12 +64,14 @@ function AddElement(props) {
             'width': width,
             'text': text,
             'font': font,
-            'imageUrl': imageUrl,
+            'imageUrl': imgUrl,
             'pageID': pageID,
         }
 
-        setPage('Front Page')
-        props.addElement(eltInfo, page)
+        console.log(imgUrl)
+
+        // setPage('Front Page')
+        // props.addElement(eltInfo, page)
         
     }
 
@@ -77,7 +103,8 @@ function AddElement(props) {
                             </Form.Group>
                         </div>
 
-                        <ElementConditional eltType={eltType} handleTextChange={handleTextChange} handleFontChange={handleFontChange} handleImageUrlChange={handleImageUrlChange}/>
+                        <ElementConditional eltType={eltType} handleTextChange={handleTextChange} handleFontChange={handleFontChange} handleImageChange={handleImageChange} 
+                            handleImageUrlChange={handleImageUrlChange} image={image}/>
 
                         <Form.Group controlId="form-page">
                             <Form.Label>Page</Form.Label>
@@ -101,6 +128,8 @@ function AddElement(props) {
 
 function ElementConditional(props) {
 
+    const [imageSelection, setImageSelection] = React.useState(0)
+
     if(props.eltType.toLowerCase() === 'text') {
         return (
             <div>
@@ -121,8 +150,61 @@ function ElementConditional(props) {
         )
     } else {
         return (
+            <div className='mb-3'>
+
+                <Form.Group controlId='upload-type'>
+                    <Form.Check inline label='Choose Existing Image' name='upload-type' type='switch' onChange={() => {imageSelection === 0 ? setImageSelection(1) : setImageSelection(0)}}/>
+                </Form.Group>
+                
+                <ImageSelection imageSelection={imageSelection} image={props.image} handleImageChange={props.handleImageChange} handleImageUrlChange={props.handleImageUrlChange}/>
+                
+            </div>
+        )
+    }
+}
+
+function ImageSelection(props) {
+
+    let fakeImages = [
+        {imgName: 'happyBirthday.png', url: 'www.happybirthday.png'},
+        {imgName: 'congrats.png', url: 'www.congrats.png'}
+    ]
+
+    if(props.imageSelection === 0) {
+        return(
+            <div className="input-group">
+                <div className="input-group-prepend">
+                    <span className="input-group-text" id="inputGroupFileAddon01">
+                    Upload Image
+                    </span>
+                </div>
+                <div className="custom-file">
+                    <input
+                    type="file"
+                    className="custom-file-input"
+                    id="inputGroupFile01"
+                    aria-describedby="inputGroupFileAddon01"
+                    onChange={props.handleImageChange}
+                    
+                    />
+                    <label className="custom-file-label" htmlFor="inputGroupFile01">
+                        {props.image.name}
+                    </label>
+                </div>
+            </div>
+        )
+    } else {
+        return (
             <div>
-                Need to do Image Stuff
+                <Form.Group controlId="form-elt-type">
+                    <Form.Label>Choose Image</Form.Label>
+                    <Form.Control as="select" onChange={props.handleImageUrlChange}>
+                        <option value=''>Select An Image</option>
+                        {fakeImages.map(img => {
+                            return(<option value={img.url} key={img.url}>{img.imgName}</option>)
+                        })}
+                    </Form.Control>
+                </Form.Group>
             </div>
         )
     }
