@@ -20,24 +20,24 @@ public class DuplicateCardHandler implements RequestHandler<DuplicateCardRequest
 	
 	// Includes new IDs for each page and visual element
 	private Card mapDuplicateCardRequestToCard(Card input)  {
-		input.setCardID(UUID.randomUUID().toString());
+		input.setCardID(UUID.randomUUID().toString().substring(0, 20));
 		
-		input.getFrontPage().setPageID(UUID.randomUUID().toString());
+		input.getFrontPage().setPageID(UUID.randomUUID().toString().substring(0, 20));
 		Iterator<VisualElement> frontPageIterator = input.getFrontPage().getListVisualElements().iterator();
 		while (frontPageIterator.hasNext()) {
-			frontPageIterator.next().setEltID(UUID.randomUUID().toString());
+			frontPageIterator.next().setEltID(UUID.randomUUID().toString().substring(0, 20));
 		}
 		
-		input.getLeftPage().setPageID(UUID.randomUUID().toString());
+		input.getLeftPage().setPageID(UUID.randomUUID().toString().substring(0, 20));
 		Iterator<VisualElement> leftPageIterator = input.getLeftPage().getListVisualElements().iterator();
 		while (leftPageIterator.hasNext()) {
-			leftPageIterator.next().setEltID(UUID.randomUUID().toString());
+			leftPageIterator.next().setEltID(UUID.randomUUID().toString().substring(0, 20));
 		}
 		
-		input.getRightPage().setPageID(UUID.randomUUID().toString());
+		input.getRightPage().setPageID(UUID.randomUUID().toString().substring(0, 20));
 		Iterator<VisualElement> rightPageIterator = input.getRightPage().getListVisualElements().iterator();
 		while (rightPageIterator.hasNext()) {
-			rightPageIterator.next().setEltID(UUID.randomUUID().toString());
+			rightPageIterator.next().setEltID(UUID.randomUUID().toString().substring(0, 20));
 		}
 		
 		return input;
@@ -50,8 +50,6 @@ public class DuplicateCardHandler implements RequestHandler<DuplicateCardRequest
 			return "recipient name required";
 		if ( input.getEventType() == null || input.getEventType().isEmpty()) 
 			return "event type required";
-		if ( input.getOrientation() == null || input.getOrientation().isEmpty()) 
-			return "orientation required";
 		return null;
 	}
 	
