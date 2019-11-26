@@ -64,11 +64,16 @@ public class DuplicateCardHandler implements RequestHandler<DuplicateCardRequest
         	if (validationError != null)  {
         		return new DuplicateCardResponse(400, validationError);
         	}
-	        Card card = cardDao.getCardByID(input.getCardID());
-			if (card != null) {
+	        
+        	// See if a card already exists for that recipient and event type
+	        Card check_existing_card = cardDao.getCardByRecipientAndEventType(input.getRecipient(), input.getEventType());
+			if (check_existing_card != null) {
 				return new DuplicateCardResponse(409, "conflict, card already exists");
 			}
 			
+			// Do The stuff
+	        Card card = cardDao.getCardByID(input.getCardID());
+
 			card = this.mapDuplicateCardRequestToCard(card);
 			// Reset the recipient and event
 			card.setRecipient(input.getRecipient());
