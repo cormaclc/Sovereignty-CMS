@@ -22,22 +22,31 @@ public class DuplicateCardHandler implements RequestHandler<DuplicateCardRequest
 	private Card mapDuplicateCardRequestToCard(Card input)  {
 		input.setCardID(UUID.randomUUID().toString().substring(0, 20));
 		
-		input.getFrontPage().setPageID(UUID.randomUUID().toString().substring(0, 20));
+		String frontPageID = UUID.randomUUID().toString().substring(0, 20);
+		input.getFrontPage().setPageID(frontPageID);
 		Iterator<VisualElement> frontPageIterator = input.getFrontPage().getListVisualElements().iterator();
 		while (frontPageIterator.hasNext()) {
-			frontPageIterator.next().setEltID(UUID.randomUUID().toString().substring(0, 20));
+			VisualElement velt = frontPageIterator.next();
+			velt.setEltID(UUID.randomUUID().toString().substring(0, 20));
+			velt.setPageID(frontPageID);
 		}
 		
-		input.getLeftPage().setPageID(UUID.randomUUID().toString().substring(0, 20));
+		String leftPageID = UUID.randomUUID().toString().substring(0, 20);
+		input.getLeftPage().setPageID(leftPageID);
 		Iterator<VisualElement> leftPageIterator = input.getLeftPage().getListVisualElements().iterator();
 		while (leftPageIterator.hasNext()) {
-			leftPageIterator.next().setEltID(UUID.randomUUID().toString().substring(0, 20));
+			VisualElement velt = leftPageIterator.next();
+			velt.setEltID(UUID.randomUUID().toString().substring(0, 20));
+			velt.setPageID(leftPageID);
 		}
 		
-		input.getRightPage().setPageID(UUID.randomUUID().toString().substring(0, 20));
+		String rightPageID = UUID.randomUUID().toString().substring(0, 20);
+		input.getRightPage().setPageID(rightPageID);
 		Iterator<VisualElement> rightPageIterator = input.getRightPage().getListVisualElements().iterator();
 		while (rightPageIterator.hasNext()) {
-			rightPageIterator.next().setEltID(UUID.randomUUID().toString().substring(0, 20));
+			VisualElement velt = rightPageIterator.next();
+			velt.setEltID(UUID.randomUUID().toString().substring(0, 20));
+			velt.setPageID(rightPageID);
 		}
 		
 		return input;
