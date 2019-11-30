@@ -8,8 +8,6 @@ public class AllCardsResponse {
 	int code;
 	String error;
 	
-	String deleteme;
-
 	public AllCardsResponse(int code, String errorMessage) {
 		this.code = code;
 		this.error = errorMessage;
@@ -32,7 +30,4 @@ public class AllCardsResponse {
 	public String getError() {
 		return error;
 	}
-	
-	
-	
 }
