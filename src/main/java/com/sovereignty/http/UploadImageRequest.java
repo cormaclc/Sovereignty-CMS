@@ -3,7 +3,7 @@ package com.sovereignty.http;
 public class UploadImageRequest {
 	String imageName;
 	String image64;
-	String eltID;
+	String imageID;
 	
 	public String getImageName() {
 		return imageName;
@@ -17,10 +17,10 @@ public class UploadImageRequest {
 	public void setImage64(String image64) {
 		this.image64 = image64;
 	}
-	public String getEltID() {
-		return eltID;
+	public String getImageID() {
+		return imageID;
 	}
-	public void setEltID(String eltID) {
-		this.eltID = eltID;
+	public void setImageID(String eltID) {
+		this.imageID = eltID;
 	}
 }
