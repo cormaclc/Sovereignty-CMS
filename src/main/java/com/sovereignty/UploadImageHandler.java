@@ -30,9 +30,9 @@ public class UploadImageHandler implements RequestHandler<UploadImageRequest, Up
     private AmazonS3 s3 = AmazonS3ClientBuilder.standard().build();
     ImageDAO dao = new ImageDAO();
     
-    public UploadImageHandler() {}
+//    public UploadImageHandler() {}
 
-    UploadImageHandler(AmazonS3 s3) { this.s3 = s3; }
+//    UploadImageHandler(AmazonS3 s3) { this.s3 = s3; }
 
     public UploadImageResponse handleRequest(UploadImageRequest input, Context context) {
         context.getLogger().log("Received image to be uploaded: " + input.getImage64());
