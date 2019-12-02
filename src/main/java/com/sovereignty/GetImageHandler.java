@@ -31,7 +31,7 @@ public class GetImageHandler implements RequestHandler<GetImageRequest, GetImage
         	
 		}
         //return new GetImageRequest();
-        return ;
+        return null;
     }
 
 }
