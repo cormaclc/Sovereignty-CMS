@@ -79,7 +79,7 @@ public class UploadImageHandler implements RequestHandler<UploadImageRequest, Up
 
 			try {
 				dao.addImage(img);
-				UploadImageResponse res = new UploadImageResponse(200, "image uploaded", imageURL);
+				UploadImageResponse res = new UploadImageResponse(200, "image uploaded:", img);
 				return res;
 			} catch (Exception e) {
 				System.out.println("---------------");
