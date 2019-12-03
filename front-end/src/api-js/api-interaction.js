@@ -2,7 +2,7 @@
 import {Card, Page, VisualElement, UNCHANGED, UPDATED, DELETED} from './classes'
 import uuidv1 from 'uuid/v1'
 
-const baseUrl = 'https://ezsx1v4va5.execute-api.us-east-1.amazonaws.com/task4'
+const baseUrl = 'https://ezsx1v4va5.execute-api.us-east-1.amazonaws.com/task5'
 
 // eslint-disable-next-line
 let testCards = JSON.stringify([

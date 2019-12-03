@@ -44,21 +44,21 @@ function ViewCards() {
     }, [cards]);
 
     const duplicateCard = (c) => {
-        console.log(c)
+        // console.log(c)
 
-        // let jsonCard = JSON.stringify(c)
+        let jsonCard = JSON.stringify(c)
 
-        // var xhr = new XMLHttpRequest();
-        // xhr.open('POST', baseUrl+'/duplicateCard', true)
-        // xhr.send(jsonCard);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', baseUrl+'/duplicateCard', true)
+        xhr.send(jsonCard);
             
-        // xhr.onloadend = function () {
-        //     if (xhr.readyState === XMLHttpRequest.DONE) {
-        //         console.log(xhr.responseText);
-        //     } else {
-        //         console.log('error');
-        //     }
-        // };
+        xhr.onloadend = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                console.log(xhr.responseText);
+            } else {
+                console.log('error');
+            }
+        };
     }
 
     return (
