@@ -2,6 +2,7 @@ import React from 'react'
 import {Modal, Form, Button} from 'react-bootstrap'
 import uuidv1 from 'uuid/v1'
 import {fileToBase64} from '../api-js/api-interaction'
+import {baseUrl} from '../api-js/api-interaction'
 
 function AddElement(props) {
     const [eltType, setEltType] = React.useState('Text')
@@ -22,7 +23,7 @@ function AddElement(props) {
     const handleImageUrlChange = (e) => { setImageUrl(e.target.value) }
 
     const handlePageChange = (e) => { setPage(e.target.value) }
-
+    
     const add = () => {
         
         if(eltType === 'Image' && image === '' && imageUrl === '') {
@@ -165,10 +166,23 @@ function ElementConditional(props) {
 
 function ImageSelection(props) {
 
-    let fakeImages = [
-        {imgName: 'happyBirthday.png', url: 'www.happybirthday.png'},
-        {imgName: 'congrats.png', url: 'www.congrats.png'}
-    ]
+    const [images, setImages] = React.useState([])
+
+    React.useEffect(() => {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", baseUrl+'/allImages', true);
+        xhr.send();
+    
+        // This will process results and update HTML as appropriate. 
+        xhr.onloadend = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                let allImages = JSON.parse(xhr.responseText).images
+                setImages(allImages)
+            } else {
+                console.log('error')  
+            }
+        };
+    }, [images]);
 
     if(props.imageSelection === 0) {
         return(
@@ -200,8 +214,8 @@ function ImageSelection(props) {
                     <Form.Label>Choose Image</Form.Label>
                     <Form.Control as="select" onChange={props.handleImageUrlChange}>
                         <option value=''>Select An Image</option>
-                        {fakeImages.map(img => {
-                            return(<option value={img.url} key={img.url}>{img.imgName}</option>)
+                        {images.map(img => {
+                            return(<option value={img.imageURL} key={img.imageURL}>{img.imageName}</option>)
                         })}
                     </Form.Control>
                 </Form.Group>
