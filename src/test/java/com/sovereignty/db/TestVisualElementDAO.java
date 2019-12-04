@@ -17,9 +17,9 @@ public class TestVisualElementDAO extends TestCase {
 		try {
 			VisualElement ve = vd.getVisualElementByID("test_elt");
 			assertEquals(ve.getPageID(), "default_back");
-			assertEquals(ve.getEltType(), "TEXT");
-			assertEquals(ve.getxPosition(), 10);
-			assertEquals(ve.getyPosition(), 15);
+			assertEquals(ve.getEltType(), "text");
+			assertEquals(ve.getxPosition(), 300);
+			assertEquals(ve.getyPosition(), 300);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("didn't work:" + e.getMessage());
