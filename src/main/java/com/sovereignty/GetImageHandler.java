@@ -26,12 +26,10 @@ public class GetImageHandler implements RequestHandler<GetImageRequest, GetImage
         		return new GetImageResponse(400, validationError);
         	}
         	i = imageDao.getImageByName(input.getImageName());
-        	return new GetImageResponse(200, "successfully got image" , i);
+        	return new GetImageResponse(200, "successfully got image" , i.getImageURL());
         }catch (Exception e) {
-        	
+			e.printStackTrace();
+			return new GetImageResponse(500, "faileg getting image, errorMessage: " + e.getMessage());
 		}
-        //return new GetImageRequest();
-        return null;
     }
-
-}
+	}
