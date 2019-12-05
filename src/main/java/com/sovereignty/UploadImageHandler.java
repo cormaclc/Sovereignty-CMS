@@ -38,7 +38,7 @@ public class UploadImageHandler implements RequestHandler<UploadImageRequest, Up
 		String bucketName = "sovereignty-images";
 		String bucketURL = "https://sovereignty-images.s3.amazonaws.com/";
 
-		String key = input.getImageName() + "-" + input.getImageID();
+		String key = input.getImageName();
 		String imageURL = bucketURL + key;
 		
 		AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
