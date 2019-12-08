@@ -111,7 +111,7 @@ function ElementComponent(props) {
         } else {
             return (
                 <Draggable onStop={() => props.handleStop(props.el.eltID)} onDrag={props.handleDrag} defaultPosition={{x:props.el.xPosition, y:props.el.yPosition}} bounds={'parent'} key={props.el.eltID}>
-                    <ImageElement border={props.selectedID === props.el.eltID} src={props.el.imageURL} height={props.el.height === 0 ? 'none' : props.el.height} width={props.el.width === 0 ? 'none' : props.el.width}></ImageElement>
+                    <ImageElement border={props.selectedID === props.el.eltID} src={props.el.imageURL} height={props.el.height === 0 ? 'none' : `${props.el.height}px`} width={props.el.width === 0 ? 'none' : `${props.el.width}px`} draggable="false"></ImageElement>
                 </Draggable>
             )
         }

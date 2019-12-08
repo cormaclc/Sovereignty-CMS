@@ -24,6 +24,13 @@ const Element = styled.div`
     box-shadow: ${props => props.border ? '3px 3px 5px grey' : 'none'}
 `
 
+const ImageElement = styled.img`
+    width: ${props => props.width};
+    height: ${props => props.height};
+    border: black solid 1px;
+    box-shadow: ${props => props.border ? '3px 3px 5px grey' : 'none'}
+`
+
 function ViewPage(props) {
     React.useEffect(() => {
     }, [props.page])
@@ -32,20 +39,27 @@ function ViewPage(props) {
         <>
             <PageWrapper landscape = {props.landscape === 'Landscape'}>
                 {props.page.listVisualElements.map((el) => {
-                    if (el.updated === 2) {
-                        return (<div key={el.eltID}></div>) 
-                    } else {
-                        return(
-                            <Draggable onStart={() => false} defaultPosition={{x:el.xPosition, y:el.yPosition}} bounds={'parent'} key={el.eltID}>
-                                <Element font={el.font} width={`${el.width}px`} height={`${el.height}px`}>{el.text}</Element>
-                            </Draggable>
-                        )
-                    }
-                    
+                    return (<ElementComponent key={el.eltID} el={el} page={props.page}/>)            
                 })}
             </PageWrapper>
         </>
     )   
+}
+
+function ElementComponent(props) {
+    if (props.el.eltType === 'text') {
+        return(
+            <Draggable onStart={() => false} defaultPosition={{x:props.el.xPosition, y:props.el.yPosition}} bounds={'parent'} key={props.el.eltID}>
+                <Element border={false} font={props.el.font} width={`${props.el.width}px`} height={`${props.el.height}px`}>{props.el.text}</Element>
+            </Draggable>
+        )
+    } else {
+        return (
+            <Draggable onStart={() => false} defaultPosition={{x:props.el.xPosition, y:props.el.yPosition}} bounds={'parent'} key={props.el.eltID}>
+                <ImageElement border={false} src={props.el.imageURL} height={props.el.height === 0 ? 'none' : `${props.el.height}px`} width={props.el.width === 0 ? 'none' : `${props.el.width}px`} draggable="false"></ImageElement>
+            </Draggable>
+        )
+    }
 }
 
 export default ViewPage 

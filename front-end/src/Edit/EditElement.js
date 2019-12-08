@@ -19,11 +19,13 @@ function EditElement(props) {
         setWidth(props.elt.width)
         setText(props.elt.text)
         setFont(props.elt.font)
-        setImageUrl(props.elt.imageURL)
+        setImageUrl(props.elt.imageUrl)
     }, [props.elt])
 
     const update = () => {
+
         let elt = props.elt;
+
         elt['height'] = parseFloat(height)
         elt['width'] = parseFloat(width)
         elt['text'] = text
@@ -33,7 +35,7 @@ function EditElement(props) {
 
         props.updateElt(elt)
     }
-
+    
     return (
         <div>
             <Modal show={props.show} onHide={props.hide}>

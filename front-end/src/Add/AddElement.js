@@ -1,8 +1,14 @@
 import React from 'react'
 import {Modal, Form, Button} from 'react-bootstrap'
 import uuidv1 from 'uuid/v1'
-import {fileToBase64} from '../api-js/api-interaction'
 import {baseUrl} from '../api-js/api-interaction'
+
+const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
 
 function AddElement(props) {
     const [eltType, setEltType] = React.useState('Text')
@@ -23,7 +29,7 @@ function AddElement(props) {
     const handleImageUrlChange = (e) => { setImageUrl(e.target.value) }
 
     const handlePageChange = (e) => { setPage(e.target.value) }
-    
+
     const add = () => {
         
         if(eltType === 'Image' && image === '' && imageUrl === '') {
@@ -43,36 +49,64 @@ function AddElement(props) {
 
         
         let imgUrl = ''
-        if(imageUrl === '') {
-            fileToBase64(image).then(res => {
-                console.log(res)
-            })
+        if(imageUrl === '' && eltType === 'Image') {
+            toBase64(image).then(res => {
+                // console.log(res)
+                let jsonImg = JSON.stringify({
+                    imageName: image.name,
+                    image64: res.substring(23, res.length),
+                    imageID: uuidv1().substring(0, 19)
+                })
 
-            // TODO: post image to s3, get url back
-            imgUrl = 's3 url!!'
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', baseUrl+'/uploadImage', true)
+                xhr.send(jsonImg);
+                    
+                xhr.onloadend = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        console.log(xhr.responseText);
+                        let eltInfo = {
+                            'eltID': uuidv1().substring(0, 19),
+                            'updated': 1,
+                            'eltType': eltType.toLowerCase(),
+                            'xPosition': 0,
+                            'yPosition': 0,
+                            'height': height,
+                            'width': width,
+                            'text': text,
+                            'font': font,
+                            'imageURL': JSON.parse(xhr.response).imageURL,
+                            'pageID': pageID,
+                        }
+                                
+                        setPage('Front Page')
+                        props.addElement(eltInfo, page)
+                    } else {
+                        console.log('error');
+                    }
+                };
+            })
         } else {
             imgUrl = imageUrl
+            let eltInfo = {
+                'eltID': uuidv1().substring(0, 19),
+                'updated': 1,
+                'eltType': eltType.toLowerCase(),
+                'xPosition': 0,
+                'yPosition': 0,
+                'height': height,
+                'width': width,
+                'text': text,
+                'font': font,
+                'imageURL': imgUrl,
+                'pageID': pageID,
+            }
+    
+            console.log(imgUrl)
+    
+            setPage('Front Page')
+            props.addElement(eltInfo, page)
         }
-        
-
-        let eltInfo = {
-            'eltID': uuidv1().substring(0, 19),
-            'updated': 1,
-            'eltType': eltType.toLowerCase(),
-            'xPosition': 0,
-            'yPosition': 0,
-            'height': height,
-            'width': width,
-            'text': text,
-            'font': font,
-            'imageUrl': imgUrl,
-            'pageID': pageID,
-        }
-
-        console.log(imgUrl)
-
-        // setPage('Front Page')
-        // props.addElement(eltInfo, page)
         
     }
 
@@ -169,19 +203,28 @@ function ImageSelection(props) {
     const [images, setImages] = React.useState([])
 
     React.useEffect(() => {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", baseUrl+'/allImages', true);
-        xhr.send();
-    
-        // This will process results and update HTML as appropriate. 
-        xhr.onloadend = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                let allImages = JSON.parse(xhr.responseText).images
-                setImages(allImages)
-            } else {
-                console.log('error')  
-            }
-        };
+        let isSubscribed = true
+
+        async function fetchData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", baseUrl+'/allImages', true);
+            xhr.send();
+        
+            // This will process results and update HTML as appropriate. 
+            xhr.onloadend = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && isSubscribed) {
+                    let allImages = JSON.parse(xhr.responseText).images
+                    setImages(allImages)
+                } else if (!isSubscribed){
+                    console.log('loading...')
+                } else {
+                    console.log('error')  
+                }
+            };
+        }
+
+        fetchData();
+        return () => (isSubscribed = false)
     }, [images]);
 
     if(props.imageSelection === 0) {
