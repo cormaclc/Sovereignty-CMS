@@ -20,6 +20,8 @@ function AddElement(props) {
     const [imageUrl, setImageUrl] = React.useState('')
     const [page, setPage] = React.useState('Front Page')
 
+    const [enableButtons, setEnableButtons] = React.useState(true)
+
     const handleEltTypeChange = (e) => { setEltType(e.target.value) }
     const handleHeightChange = (e) => { setHeight(e.target.value) }
     const handleWidthChange = (e) => { setWidth(e.target.value) }
@@ -31,6 +33,8 @@ function AddElement(props) {
     const handlePageChange = (e) => { setPage(e.target.value) }
 
     const add = () => {
+
+        setEnableButtons(false);
         
         if(eltType === 'Image' && image === '' && imageUrl === '') {
             alert('Invalid image, try again.')
@@ -80,6 +84,7 @@ function AddElement(props) {
                         }
                                 
                         setPage('Front Page')
+                        setEnableButtons(false);
                         props.addElement(eltInfo, page)
                     } else {
                         console.log('error');
@@ -105,6 +110,7 @@ function AddElement(props) {
             console.log(imgUrl)
     
             setPage('Front Page')
+            setEnableButtons(false);
             props.addElement(eltInfo, page)
         }
         
@@ -153,8 +159,8 @@ function AddElement(props) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant='danger' onClick={props.handleClose}>Cancel</Button>
-                    <Button variant='success' onClick={add}>Add Element</Button>
+                    <Button variant='danger' onClick={props.handleClose} disabled={!enableButtons}>Cancel</Button>
+                    <Button variant='success' onClick={add} disabled={!enableButtons}>Add Element</Button>
                 </Modal.Footer>
             </Modal>
         </div>
