@@ -51,7 +51,6 @@ function EditCard() {
                 console.log('error')  
             }
         };
-        
     }, [cardID]) // only re-run if cardID changes
 
     const saveCard = () => {
