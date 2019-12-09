@@ -30,7 +30,4 @@ public class AllCardsResponse {
 	public String getError() {
 		return error;
 	}
-	
-	
-	
 }

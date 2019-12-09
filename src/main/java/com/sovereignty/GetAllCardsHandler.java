@@ -13,7 +13,6 @@ import com.sovereignty.db.CardDAO;
 import com.sovereignty.http.AllCardsResponse;
 import com.sovereignty.model.Card;
 
-
   public class GetAllCardsHandler implements RequestHandler<Object, AllCardsResponse> {
   
 	  public AllCardsResponse handleRequest(Object input, Context context) {
