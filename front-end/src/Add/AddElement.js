@@ -49,8 +49,6 @@ function AddElement(props) {
         } else {
             pageID = props.card.rightPage.pageID
         }
-
-
         
         let imgUrl = ''
         if(imageUrl === '' && eltType === 'Image') {
@@ -85,7 +83,15 @@ function AddElement(props) {
                                 
                         setPage('Front Page')
                         setEnableButtons(false);
-                        props.addElement(eltInfo, page)
+                        setEltType('Text')
+                        setImage('')
+                        if(JSON.parse(xhr.response).code === 500) {
+                            alert('Error uploading image')
+                            props.addElement(false, page)
+                        } else {
+                            props.addElement(eltInfo, page)
+                        }
+                        setEnableButtons(true);
                     } else {
                         console.log('error');
                     }
@@ -111,7 +117,9 @@ function AddElement(props) {
     
             setPage('Front Page')
             setEnableButtons(false);
+            setEltType('Text')
             props.addElement(eltInfo, page)
+            setEnableButtons(true);
         }
         
     }
