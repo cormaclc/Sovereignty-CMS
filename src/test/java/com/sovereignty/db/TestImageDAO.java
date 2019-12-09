@@ -42,7 +42,7 @@ public class TestImageDAO extends TestCase {
 		ImageDAO id = new ImageDAO();
 		try {
 			List<Image> images = id.getAllImages();
-			assertEquals(images.size(), 1);
+			assertTrue(images.size() > 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("didn't work:" + e.getMessage());

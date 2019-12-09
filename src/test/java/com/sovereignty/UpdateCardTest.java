@@ -7,8 +7,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.sovereignty.db.CardDAO;
 import com.sovereignty.http.UpdateCardRequest;
 import com.sovereignty.http.UpdateCardResponse;
+import com.sovereignty.model.Card;
+import com.sovereignty.model.Page;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.
@@ -16,11 +19,37 @@ import com.sovereignty.http.UpdateCardResponse;
 public class UpdateCardTest {
 
     private static UpdateCardRequest input;
+    private static CardDAO cd = new CardDAO();
+    static Card c = new Card();
+    
 
     @BeforeClass
     public static void createInput() throws IOException {
         // TODO: set up your sample input object here.
-        input = null;
+		try {
+			c = cd.getCardByID("test_card");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+        input = new UpdateCardRequest();
+        input.setCardID(c.getCardID());
+        input.setEventType("Birthday");
+        input.setRecipient(c.getRecipient());
+        input.setOrientation(c.getOrientation());
+        input.setFrontPage(c.getFrontPage());
+        input.setLeftPage(c.getFrontPage());
+        input.setRightPage(c.getFrontPage());
+        input.setBackPage(c.getFrontPage());
+        
+        
+        try {
+			cd.updateCard(c);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     private Context createContext() {
@@ -40,6 +69,13 @@ public class UpdateCardTest {
         UpdateCardResponse output = handler.handleRequest(input, ctx);
 
         // TODO: validate output here if needed.
-        Assert.assertEquals("Hello from Lambda!", output);
+        Assert.assertEquals("Birthday", output.getCard().getEventType());
+        
+        try {
+			cd.updateCard(c);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }
