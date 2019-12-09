@@ -1,7 +1,13 @@
 # Sovereignty-CMS 
 
 ## front-end link
-[http://sovereignty-frontend.s3-website-us-east-1.amazonaws.com/]
+http://sovereignty-frontend.s3-website-us-east-1.amazonaws.com/
+
+## Database Schema 
+https://docs.google.com/document/d/14BB-o9ghiKei-ucE61wVI9Mf3Y5gW016ZeuCZOwxEXs/edit?usp=sharing
+
+## Github Link
+https://github.com/cormaccollier/Sovereignty-CMS.git
 
 ## Swagger API
 
