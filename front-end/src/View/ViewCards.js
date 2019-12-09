@@ -28,19 +28,29 @@ function ViewCards() {
     }
 
     React.useEffect(() => {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", baseUrl+'/allCards', true);
-        xhr.send();
-    
-        // This will process results and update HTML as appropriate. 
-        xhr.onloadend = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                let allCards = JSON.parse(xhr.responseText).cards
-                setCards(allCards)
-            } else {
-                console.log('error')  
-            }
-        };
+        let isSubscribed = true
+
+        async function fetchData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", baseUrl+'/allCards', true);
+            xhr.send();
+        
+            // This will process results and update HTML as appropriate. 
+            xhr.onloadend = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && isSubscribed) {
+                    let allCards = JSON.parse(xhr.responseText).cards
+                    setCards(allCards)
+                } else if (!isSubscribed) {
+                    console.log('loading...')
+                } else {
+                    console.log('error')  
+                }
+            };
+        }
+
+        fetchData()
+        return () => (isSubscribed = false);
+        
     }, [cards]);
 
     const duplicateCard = (c) => {
