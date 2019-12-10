@@ -37,7 +37,5 @@ public class CreateCardResponse {
 		this.error = errorMessage;
 		this.card = card;
 	}
-	
-	
 }
 

@@ -103,6 +103,11 @@ function EditCard() {
 
     const addElement = (eltInfo, page) => {
 
+        if(eltInfo === false) {
+            setShowAddElement(false)
+            return;
+        }
+
         let c = card;
         let pc = positionChanges;
         let p = ''
