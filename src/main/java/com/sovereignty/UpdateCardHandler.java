@@ -56,7 +56,9 @@ public class UpdateCardHandler implements RequestHandler<UpdateCardRequest, Upda
         	return new UpdateCardResponse(200, "Successfully updated card", card);
 		} catch (Exception e) {
 			context.getLogger().log(e.getMessage());
+			e.printStackTrace();
 			return new UpdateCardResponse(500, e.getMessage());
+
 		}
     }
 
