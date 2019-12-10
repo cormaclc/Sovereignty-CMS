@@ -47,3 +47,4 @@ public class GetCardTest {
 //        Assert.assertEquals("PORTRAIT", output.getCard().getOrientation());
     }
 }
+
