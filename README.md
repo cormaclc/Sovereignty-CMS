@@ -9,6 +9,9 @@ https://docs.google.com/document/d/14BB-o9ghiKei-ucE61wVI9Mf3Y5gW016ZeuCZOwxEXs/
 ## Github link
 https://github.com/cormaccollier/Sovereignty-CMS.git
 
+## Code coverage
+https://drive.google.com/drive/folders/1nv4HBk73pj10ANTzoN3cLSQHh7yHCM33?usp=sharing
+
 ## Group report link
 https://docs.google.com/document/d/1gNU88kB3uN3t56_ji3mWcDUdV5yJeMuQs4eD61Xi0mg/edit?usp=sharing
 
