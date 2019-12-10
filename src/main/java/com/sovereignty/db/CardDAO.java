@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.sovereignty.model.Card;
 import com.sovereignty.model.Page;
+import com.sovereignty.model.VisualElement;
 
 public class CardDAO {
 	java.sql.Connection conn;
@@ -64,6 +65,7 @@ public class CardDAO {
 		}
 	}
 	
+	// Generates a new card for createCard()
 	public boolean addCard(Card card) throws Exception {
 		try {
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO Cards "
@@ -86,12 +88,44 @@ public class CardDAO {
 		
 	}
 	
+	// Saves an entire card for duplicateCard()
+	public boolean saveCard(Card card) throws Exception {
+		try {
+			// Add the Pages first so the pageIDs are valid when we insert the Card
+			boolean frontAdded = pageDAO.savePage(card.getFrontPage());
+			boolean leftAdded = pageDAO.savePage(card.getLeftPage());
+			boolean rightAdded = pageDAO.savePage(card.getRightPage());
+			
+			
+			// Insert the New Card
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO Cards "
+					+ "(cardID, recipient, eventType, orientation, frontPage, leftPage, rightPage, backPage) "
+					+ "values(?,?,?,?,?,?,?,?);");
+            ps.setString(1, card.getCardID());
+            ps.setString(2, card.getRecipient());
+            ps.setString(3, card.getEventType());
+            ps.setString(4, card.getOrientation());
+            ps.setString(5, card.getFrontPage().getPageID());
+            ps.setString(6, card.getLeftPage().getPageID());
+            ps.setString(7, card.getRightPage().getPageID());
+            ps.setString(8, card.getBackPage().getPageID());
+            ps.execute();
+            
+            
+            return frontAdded && rightAdded && leftAdded;
+        } catch (Exception e) {
+        	e.printStackTrace();
+            throw new Exception("Failed to insert card: " + e.getMessage());
+        }
+		
+	}
+	
     private Card generateCard(ResultSet res) throws Exception {
     	String cardID = res.getString("cardID");
         String recipient  = res.getString("recipient");
         String eventType = res.getString("eventType");
         String orientation = res.getString("orientation");
-     
+
         return new Card (cardID, recipient, eventType, orientation);
     }
     
@@ -103,8 +137,7 @@ public class CardDAO {
         String frontPageID = res.getString("frontPage");
         String leftPageID = res.getString("leftPage");
         String rightPageID = res.getString("rightPage");
-        String backPageID = res.getString("backPage");
-                
+        String backPageID = res.getString("backPage");     
         Card genCard = new Card (cardID, recipient, eventType, orientation);
         genCard.setFrontPage(pageDAO.getPageByID(frontPageID));
         genCard.setLeftPage(pageDAO.getPageByID(leftPageID));

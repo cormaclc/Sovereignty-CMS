@@ -88,8 +88,9 @@ function DependentInput(props) {
         )
     } else {
         return (
-            <div>
-                Need to do Image Stuff
+            <div style={{color: 'red'}}>
+                {/* Need to do Image Stuff */}
+                * enter 0 for one field to maintain aspect ratio *
             </div>
         )
     }
